@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="WebForm1.aspx.cs" Inherits="FitMe3.WebForm1" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Users.aspx.cs" Inherits="FitMe3.WebForm1" %>
 
 <!DOCTYPE html>
 
@@ -10,7 +10,7 @@
     <form id="form1" runat="server">
     <div>
     
-        <asp:SqlDataSource ID="FitMeUsers" runat="server" ConnectionString="<%$ ConnectionStrings:FitMeDatabase %>" ProviderName="<%$ ConnectionStrings:FitMeDatabase.ProviderName %>" SelectCommand="SELECT fitmeusers.* FROM fitmeusers"></asp:SqlDataSource>
+        <asp:SqlDataSource ID="FitMeUsers" runat="server" ConnectionString="<%$ ConnectionStrings:FitMeDatabase %>" ProviderName="<%$ ConnectionStrings:FitMeDatabase.ProviderName %>" SelectCommand="SELECT fitmeusers.* FROM fitmeusers" EnableCaching="True"></asp:SqlDataSource>
     
     </div>
         <p>
