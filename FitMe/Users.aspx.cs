@@ -13,7 +13,7 @@ namespace FitMe3
 
         protected void Page_Load(object sender, EventArgs e)
         {
-
+            updateGVUsers();
         }
 
         protected void btnSaveUser_Click(object sender, EventArgs e)
@@ -35,7 +35,24 @@ namespace FitMe3
                 Console.WriteLine(ex.ToString());
             }
 
-            gvFitMeUsers.DataBind();
+            updateGVUsers();            
+        }
+
+        /// <summary>
+        /// We need to force update of the grid view
+        /// </summary>
+        private void updateGVUsers()
+        {
+            try
+            {
+                FitMeUsers.EnableCaching = false;
+                gvFitMeUsers.DataBind();
+                FitMeUsers.EnableCaching = true;
+            }
+            catch(Exception ex)
+            {
+                Console.Write(ex.ToString());
+            }
         }
     }
 }

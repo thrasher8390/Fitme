@@ -16,7 +16,14 @@ namespace FitMe
 
         protected void Button1_Click(object sender, EventArgs e)
         {
-            Server.Transfer("Users.aspx", true);
+            try
+            {
+                Response.Redirect("Users.aspx",false);
+            }
+            catch (Exception ex)
+            {
+                Console.Write(ex.ToString());
+            }
         }
     }
 }

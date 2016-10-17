@@ -7,20 +7,17 @@
     <title></title>
 </head>
 <body>
-    <form id="form1" runat="server">
-    <div>
-    
-        <asp:SqlDataSource ID="FitMeUsers" runat="server" ConnectionString="<%$ ConnectionStrings:FitMeDatabase %>" ProviderName="<%$ ConnectionStrings:FitMeDatabase.ProviderName %>" SelectCommand="SELECT fitmeusers.* FROM fitmeusers" EnableCaching="True"></asp:SqlDataSource>
-    
-    </div>
+    <form id="fUsers" runat="server">
         <p>
+            <asp:SqlDataSource ID="FitMeUsers" runat="server" ConnectionString="<%$ ConnectionStrings:fitmedatabase1 %>" ProviderName="<%$ ConnectionStrings:fitmedatabase1.ProviderName %>" SelectCommand="SELECT fitmeusers.* FROM fitmeusers"></asp:SqlDataSource>
             Here is a website with 2 users</p>
         <asp:TextBox ID="tbUserName" runat="server">User Name</asp:TextBox>
         <asp:TextBox ID="tbFirstName" runat="server">First Name</asp:TextBox>
         <asp:Button ID="btnSaveUser" runat="server" OnClick="btnSaveUser_Click" Text="SaveUser" />
         <br />
-        <asp:GridView ID="gvFitMeUsers" runat="server" AllowPaging="True" AllowSorting="True" DataSourceID="FitMeUsers">
+        <asp:GridView ID="gvFitMeUsers" runat="server" AllowSorting="True" DataSourceID="FitMeUsers">
         </asp:GridView>
+        <br />
     </form>
 </body>
 </html>
