@@ -5,9 +5,9 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
-namespace Sample
+namespace FitMe
 {
-    public partial class ContentPage : System.Web.UI.Page
+    public partial class About : System.Web.UI.Page
     {
     }
 }
