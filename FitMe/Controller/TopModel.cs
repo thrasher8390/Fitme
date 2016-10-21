@@ -15,70 +15,35 @@ namespace FitMe.Controller
 {
     public class TopModel
     {
-        private MySqlConnection data;
-        private List<Top> tops = new List<Top>();
+        private MySqlConnection FitMeDataBaseConnection;
+        private List<Top> Tops = new List<Top>();
+
+        const string TABLE_DESIGNER = "top_designer";
+        const string TABLE_CHEST = "top_chest";
+        const string TABLE_NECK = "top_neck";
+        const string TABLE_SLEEVE = "top_sleeve";
 
         //What exists in the DB today!
-        Dictionary<int, string> chestDict = new Dictionary<int, string>();
-        Dictionary<int, string> designerDict = new Dictionary<int, string>();
-        Dictionary<int, string> neckDict = new Dictionary<int, string>();
-        Dictionary<int, string> sleeveDict = new Dictionary<int, string>();
+        Dictionary<int, string> ChestDict = new Dictionary<int, string>();
+        Dictionary<int, string> DesignerDict = new Dictionary<int, string>();
+        Dictionary<int, string> NeckDict = new Dictionary<int, string>();
+        Dictionary<int, string> SleeveDict = new Dictionary<int, string>();
 
         /// <summary>
         /// This wil have access to all the databases that have to do with tops
         /// </summary>
         public TopModel()
         {
-            data = new MySqlConnection(WebConfigurationManager.ConnectionStrings["fitmedatabase1"].ConnectionString);
-            MySqlCommand getTop = new MySqlCommand("SELECT * FROM top",data);
-            MySqlCommand getTopChest = new MySqlCommand("SELECT * FROM top_chest", data);
-            MySqlCommand getTopDesigner = new MySqlCommand("SELECT * FROM top_designer", data);
-            MySqlCommand getTopNeck = new MySqlCommand("SELECT * FROM top_neck", data);
-            MySqlCommand getTopSleeve = new MySqlCommand("SELECT * FROM top_sleeve", data);
-            data.Open();
-           
-            using (MySqlDataReader topChestReader = getTopChest.ExecuteReader())
-            {
-                while (topChestReader.Read())
-                {
-                    String id = topChestReader.GetString("id");
-                    String size = topChestReader.GetString("Size");
-                    chestDict.Add(Convert.ToInt32(id), size);
-                }
-            }
-            
-            using (MySqlDataReader topDesignerReader = getTopDesigner.ExecuteReader())
-            {
-                while (topDesignerReader.Read())
-                {
-                    String id = topDesignerReader.GetString("id");
-                    String name = topDesignerReader.GetString("Name");
-                    designerDict.Add(Convert.ToInt32(id), name);
-                }
+            FitMeDataBaseConnection = new MySqlConnection(WebConfigurationManager.ConnectionStrings["fitmedatabase1"].ConnectionString);
+            MySqlCommand getTop = new MySqlCommand("SELECT * FROM top",FitMeDataBaseConnection);
 
-            }
-            
-            using (MySqlDataReader topNeckReader = getTopNeck.ExecuteReader())
-            {
-                while (topNeckReader.Read())
-                {
-                    String id = topNeckReader.GetString("id");
-                    String size = topNeckReader.GetString("Size");
-                    neckDict.Add(Convert.ToInt32(id), size);
-                }
+            //Read all of the shirt properties
+            ReadFromTable(ChestDict, TABLE_CHEST, "Size");
+            ReadFromTable(DesignerDict, TABLE_DESIGNER , "Name");
+            ReadFromTable(NeckDict, TABLE_NECK, "Size");
+            ReadFromTable(SleeveDict, TABLE_SLEEVE, "Size");
 
-            }
-            
-            using (MySqlDataReader topSleveReader = getTopSleeve.ExecuteReader())
-            {
-                while (topSleveReader.Read())
-                {
-                    String id = topSleveReader.GetString("id");
-                    String size = topSleveReader.GetString("Size");
-                    sleeveDict.Add(Convert.ToInt32(id), size);
-                }
-
-            }
+            FitMeDataBaseConnection.Open();
 
             using (MySqlDataReader topReader = getTop.ExecuteReader())
             {
@@ -87,51 +52,138 @@ namespace FitMe.Controller
                     int id = Convert.ToInt32(topReader.GetString("id"));
                     int designer = Convert.ToInt32(topReader.GetString("Designer"));
                     int neck = Convert.ToInt32(topReader.GetString("Neck"));
+
                     string chestSize = null;
                     try
                     {
                         int chest = Convert.ToInt32(topReader.GetString("Chest"));
-                        chestSize = chestDict[chest];
+                        chestSize = ChestDict[chest];
                     }
                     catch(Exception ex)
                     {
                         Console.WriteLine(ex.ToString());
                     }
+
                     int sleeve = Convert.ToInt32(topReader.GetString("Sleeve"));
 
-                    tops.Add(new Top(id, designerDict[designer], neckDict[neck], chestSize, sleeveDict[sleeve]));
+                    Tops.Add(new Top(id, DesignerDict[designer], NeckDict[neck], chestSize, SleeveDict[sleeve]));
                 }
 
             }
 
-            data.Close();       
-            
-            //dispose everything
-            getTop.Dispose();
-            getTopChest.Dispose();
-            getTopDesigner.Dispose();
-            getTopNeck.Dispose();
-            getTopSleeve.Dispose();
-            //start connect with sql server
+            FitMeDataBaseConnection.Close();       
         }
 
-        public Boolean CreateDesigner(string designername)
+        /// <summary>
+        /// We'll try updating the DB and also try creating a new Top item
+        /// </summary>
+        /// <param name="designer"></param>
+        /// <param name="neck"></param>
+        /// <param name="sleeve"></param>
+        /// <param name="chest"></param>
+        internal Boolean Create(string designer, string neck, string sleeve, string chest)
         {
-            Boolean updateSuccessful = false;
-            if(!designerDict.ContainsValue(designername))
+            Boolean userAddedSomethingNew = false;
+
+            if( TryUpdatingTables(DesignerDict, TABLE_DESIGNER, "Name", designer) |
+                TryUpdatingTables(NeckDict, TABLE_NECK, "Size", neck) |
+                TryUpdatingTables(SleeveDict, TABLE_SLEEVE, "Size", sleeve) |
+                TryUpdatingTables(ChestDict, TABLE_CHEST, "Size", chest))
             {
-                MySqlCommand addDesigner = new MySqlCommand();
-                addDesigner.CommandText = "INSERT INTO top_designer (Name) VALUES(\'" + designername + "\')";
-                addDesigner.Connection = data;
-                data.Open();
-                int rowsUpdated = addDesigner.ExecuteNonQuery();
-                if(rowsUpdated >0)
-                {
-                    updateSuccessful = true;
-                }
+                userAddedSomethingNew = true;
             }
 
-            return updateSuccessful;
+            if (DoesTopExistInDB(designer, neck, sleeve, chest))
+            {
+                //Add a top to the DB
+            }
+
+            return userAddedSomethingNew;
         }
+
+        /// <summary>
+        /// Filter through Tops
+        /// </summary>
+        /// <param name="designer"></param>
+        /// <param name="neck"></param>
+        /// <param name="sleeve"></param>
+        /// <param name="chest"></param>
+        /// <returns></returns>
+        private Boolean DoesTopExistInDB(string designer, string neck, string sleeve, string chest)
+        {
+            return false;
+        }
+
+        /// <summary>
+        /// Read for a table in FitMeDataBase and add value to a dictionary
+        /// </summary>
+        /// <param name="dict"></param>
+        /// <param name="table"></param>
+        /// <param name="valueString"></param>
+        private void ReadFromTable(Dictionary<int,string> dict, string table, string valueString)
+        {
+            MySqlCommand cmd = new MySqlCommand("SELECT * FROM " + table, FitMeDataBaseConnection);
+            FitMeDataBaseConnection.Open();
+            using (MySqlDataReader reader = cmd.ExecuteReader())
+            {
+                while (reader.Read())
+                {
+                    String key = reader.GetString("id");
+                    String value = reader.GetString(valueString);
+                    dict.Add(Convert.ToInt32(key), value);
+                }
+            }
+            FitMeDataBaseConnection.Close();
+            cmd.Dispose();
+        }
+
+        /// <summary>
+        /// We should try to create a designer
+        /// </summary>
+        /// /// <param name="dict"></param
+        /// <param name="designername"></param
+        /// <returns>user contributed to the database!</returns>
+        private Boolean TryUpdatingTables(Dictionary<int,string> dict, string table, string column, string value)
+        {
+            Boolean newValueAdded = false;
+            if( !dict.ContainsValue(value) &&
+                !String.IsNullOrEmpty(column) &&
+                !String.IsNullOrEmpty(value))
+            {
+                newValueAdded = CreateNewRow(table, column, value);
+            }
+
+            return newValueAdded;
+        }
+
+        /// <summary>
+        /// Create a new row and insert value
+        /// </summary>
+        /// <param name="table"></param>
+        /// <param name="column"></param>
+        /// <param name="value"></param>
+        /// <returns>Successfully added row</returns>
+        private Boolean CreateNewRow(string table, string column, string value)
+        {
+            Boolean returnValue = false;
+
+            using (MySqlCommand insert = new MySqlCommand())
+            {
+                insert.CommandText = "INSERT INTO " + table + " (" + column + ") VALUES(\'" + value + "\')";
+                insert.Connection = FitMeDataBaseConnection;
+
+                FitMeDataBaseConnection.Open();
+
+                if (insert.ExecuteNonQuery() > 0)
+                {
+                    returnValue = true;
+                }
+
+                FitMeDataBaseConnection.Close();
+            }        
+
+            return returnValue;
+        }
+
     }
 }

@@ -17,12 +17,21 @@ namespace FitMe
 
         protected void btnAddItem_Click(object sender, EventArgs e)
         {
-            string designer = tbDesignerName.Text;
-            string neck = tbNeckSize.Text;
+            TopModel Top = new TopModel();
+            if (Top.Create(tbDesignerName.Text, tbNeckSize.Text, tbSleeveSize.Text, tbChestSize.Text))
+            {
+                Console.WriteLine("YAY!!! something new was added! Thanks for the contribution");
+                lblSuccessfullyAddedItem.Visible = true;
+            }
+            else
+            {
+                lblSuccessfullyAddedItem.Visible = false;
+            }
+        }
 
-            TopModel top = new TopModel();
+        protected void TextBox1_TextChanged(object sender, EventArgs e)
+        {
 
-            top.CreateDesigner(designer);
         }
     }
 }

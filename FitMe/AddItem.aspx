@@ -6,19 +6,17 @@
         <!-- Main component for a primary marketing message or call to action -->
     <div class="jumbotron">
         <h1>Add an item!</h1>
-        <div class ="input-group">
+        <div class ="input-group" id="lblSuccessfullyAddedItem">
             <asp:TextBox runat="server" ID="tbDesignerName" BackColor="White" BorderStyle="Double"></asp:TextBox>
             <br />
             <asp:TextBox runat="server" ID="tbNeckSize" BackColor="White" BorderStyle="Double" ToolTip="asdf"></asp:TextBox>
             <br />
-            <input type ="text" placeholder="Sleeve Size" id="tbSleveSize" />
+            <asp:TextBox runat="server" ID="tbSleeveSize" BackColor="White" BorderStyle="Double" ToolTip="asdf"></asp:TextBox> 
             <br />
-            <input type ="text" placeholder="Chest Size" id="tbChestSize" />
+            <asp:TextBox runat="server" ID="tbChestSize" BackColor="White" BorderStyle="Double" ToolTip="asdf"></asp:TextBox>           
             <br />
-            <input type ="text" placeholder="Waist Size" id="tbWaistSize" />
-            
+            <asp:Label ID="lblSuccessfullyAddedItem" runat="server" Visible="false" Text="YAY! You successfully added an item!" Font-Bold="True" ForeColor="#00CC00"></asp:Label>
         </div>
-        <br />
         <div class ="button-group">
             <asp:Button ID="btnAddItem" runat="server" Text="Add Item" OnClick="btnAddItem_Click" CssClass="btn btn-primary" />
         </div>

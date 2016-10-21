@@ -40,6 +40,33 @@ namespace FitMe {
         protected global::System.Web.UI.WebControls.TextBox tbNeckSize;
         
         /// <summary>
+        /// tbSleeveSize control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox tbSleeveSize;
+        
+        /// <summary>
+        /// tbChestSize control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox tbChestSize;
+        
+        /// <summary>
+        /// lblSuccessfullyAddedItem control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblSuccessfullyAddedItem;
+        
+        /// <summary>
         /// btnAddItem control.
         /// </summary>
         /// <remarks>
