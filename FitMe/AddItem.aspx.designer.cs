@@ -22,6 +22,15 @@ namespace FitMe {
         protected global::System.Web.UI.HtmlControls.HtmlForm formAddItem;
         
         /// <summary>
+        /// ScriptManager1 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.ScriptManager ScriptManager1;
+        
+        /// <summary>
         /// tbDesignerName control.
         /// </summary>
         /// <remarks>
@@ -29,6 +38,24 @@ namespace FitMe {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox tbDesignerName;
+        
+        /// <summary>
+        /// aceDesignerName control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::AjaxControlToolkit.AutoCompleteExtender aceDesignerName;
+        
+        /// <summary>
+        /// lblInvalidDesignerName control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblInvalidDesignerName;
         
         /// <summary>
         /// tbNeckSize control.
@@ -40,6 +67,24 @@ namespace FitMe {
         protected global::System.Web.UI.WebControls.TextBox tbNeckSize;
         
         /// <summary>
+        /// aceNeckSize control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::AjaxControlToolkit.AutoCompleteExtender aceNeckSize;
+        
+        /// <summary>
+        /// lblInvalidNeckSize control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblInvalidNeckSize;
+        
+        /// <summary>
         /// tbSleeveSize control.
         /// </summary>
         /// <remarks>
@@ -49,6 +94,24 @@ namespace FitMe {
         protected global::System.Web.UI.WebControls.TextBox tbSleeveSize;
         
         /// <summary>
+        /// aceSleeveSize control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::AjaxControlToolkit.AutoCompleteExtender aceSleeveSize;
+        
+        /// <summary>
+        /// lblInvalidSleeveSize control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblInvalidSleeveSize;
+        
+        /// <summary>
         /// tbChestSize control.
         /// </summary>
         /// <remarks>
@@ -56,6 +119,24 @@ namespace FitMe {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox tbChestSize;
+        
+        /// <summary>
+        /// aceChestSize control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::AjaxControlToolkit.AutoCompleteExtender aceChestSize;
+        
+        /// <summary>
+        /// lblInvalidChestSize control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblInvalidChestSize;
         
         /// <summary>
         /// lblSuccessfullyAddedItem control.

@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Sample {
+namespace FitMe {
     
     
     public partial class Main {
