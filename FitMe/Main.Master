@@ -61,11 +61,21 @@
             </asp:ContentPlaceHolder>
         </div>
     </div>
+    <footer class="footer">
+        <div class="container" style="text-align:center">
+                <!-- hitwebcounter Code START -->
+                <a href="http://www.hitwebcounter.com" target="_blank" style="align-content:center;align-items:center;text-align:center;">
+                    <img src="http://hitwebcounter.com/counter/counter.php?page=6520975&style=0008&nbdigits=7&type=page&initCount=0" title="my widget for counting" Alt="my widget for counting"   border="0" style="align-self:center">
+                </a>
+        </div>
+    </footer>
+    
     <!-- /container -->
     <asp:PlaceHolder runat="server">
         <%-- Script Section --%>
         <%: Scripts.Render("~/bundles/jQuery")  %>
     </asp:PlaceHolder>
-    <asp:ContentPlaceHolder ID="ScriptSection" runat="server" />
+    <asp:ContentPlaceHolder ID="ScriptSection" runat="server" />               
 </body>
+    
 </html>
