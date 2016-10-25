@@ -10,6 +10,6 @@
 namespace FitMe {
     
     
-    public partial class Default {
+    public partial class Contact {
     }
 }

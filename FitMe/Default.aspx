@@ -1,16 +1,14 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Default.aspx.cs" Inherits="FitMe.Default" %>
-
-<!DOCTYPE html>
-
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head runat="server">
-    <title></title>
-</head>
-<body>
-    <form id="form1" runat="server">
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Main.Master" AutoEventWireup="true" CodeBehind="Default.aspx.cs" Inherits="FitMe.Default" %>
+<asp:Content ID="Content1" ContentPlaceHolderID="StyleSection" runat="server">
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="ContentSection" runat="server">
+    <div class="jumbotron">
+        <h1>Welcome to FitMe :)</h1>
         <p>
-        <asp:Button ID="btnGoToUsers" runat="server" OnClick="Button1_Click" Text="Go To Users" Height="374px" Width="1049px" />
+            Hello, and welcome to FitMe. My name is Derek Thrasher and I'm excited to help make shopping for clothes easier for all of us.
+            FitMe will learn your style and size and recommend clothes that will fit you just right!
         </p>
-    </form>
-</body>
-</html>
+    </div>
+</asp:Content>
+<asp:Content ID="Content3" ContentPlaceHolderID="ScriptSection" runat="server">
+</asp:Content>
