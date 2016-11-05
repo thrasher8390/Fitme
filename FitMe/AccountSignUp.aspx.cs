@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FitMe.Models.UserModel.Controller;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -9,8 +10,10 @@ namespace FitMe
 {
     public partial class AccountSignUp : System.Web.UI.Page
     {
+        UserModel user;
         protected void Page_Load(object sender, EventArgs e)
         {
+            user = new UserModel();
             tbFirstName.Focus();
         }
 
@@ -22,6 +25,8 @@ namespace FitMe
             string password = tbPassword.Text;
             string passwordVerify = tbPasswordVerify.Text;
 
+            user = new UserModel();
+            user.CreateAccount(firstName, lastName, email, password, passwordVerify);
             //Acount Sign In
             //We should check to see if the account exists. If the account exists we should flip to the signin screen
             //Sing in and go to User Profile!

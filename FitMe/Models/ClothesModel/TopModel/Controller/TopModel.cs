@@ -4,18 +4,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
-using System.Web.Http;
-using Newtonsoft.Json;
-using System.Web.UI.WebControls;
-using System.Configuration;
-using System.Web.Configuration;
 using MySql.Data.MySqlClient;
+using FitMe.Helper;
 
 namespace FitMe.Controller
 {
     public class TopModel
     {
-        private MySqlConnection FitMeDataBaseConnection;
         private List<Top> Tops = new List<Top>();
 
         const string COLUMN_ID = "id";
@@ -44,17 +39,15 @@ namespace FitMe.Controller
         /// </summary>
         public TopModel()
         {
-            FitMeDataBaseConnection = new MySqlConnection(WebConfigurationManager.ConnectionStrings["fitmedatabase1"].ConnectionString);
-            MySqlCommand getTop = new MySqlCommand("SELECT * FROM " + TABLE_TOP, FitMeDataBaseConnection);
-
             //Read all of the shirt properties
             ReadFromTable(ChestDict, TABLE_CHEST, COLUMN_SIZE);
             ReadFromTable(DesignerDict, TABLE_DESIGNER , COLUMN_NAME);
             ReadFromTable(NeckDict, TABLE_NECK, COLUMN_SIZE);
             ReadFromTable(SleeveDict, TABLE_SLEEVE, COLUMN_SIZE);
 
-            FitMeDataBaseConnection.Open();
+            DataBase.Open();
 
+            MySqlCommand getTop = DataBase.GetMySqlCommand("SELECT * FROM " + TABLE_TOP);
             using (MySqlDataReader topReader = getTop.ExecuteReader())
             {
                 while (topReader.Read())
@@ -79,7 +72,7 @@ namespace FitMe.Controller
 
             }
 
-            FitMeDataBaseConnection.Close();       
+            DataBase.Close();       
         }
 
         /// <summary>
@@ -91,33 +84,43 @@ namespace FitMe.Controller
         /// <param name="chest"></param>
         internal Boolean Create(string designer, string neck, string sleeve, string chest)
         {
-            Boolean userAddedSomethingNew = false;
+            Boolean userContributedToDataBase = false;
 
             TopDBAdd designerID = TryUpdatingTables(DesignerDict, TABLE_DESIGNER, COLUMN_NAME, designer);
             TopDBAdd neckID = TryUpdatingTables(NeckDict, TABLE_NECK, COLUMN_SIZE, neck);
             TopDBAdd sleeveID = TryUpdatingTables(SleeveDict, TABLE_SLEEVE, COLUMN_SIZE, sleeve);
             TopDBAdd chestID = TryUpdatingTables(ChestDict, TABLE_CHEST, COLUMN_SIZE, chest);
 
+            //Did the user contribute to the dataBase?
             if ( designerID.AddedNewValue ||
                 neckID.AddedNewValue ||
                 sleeveID.AddedNewValue ||
                 chestID.AddedNewValue) 
             {
-                userAddedSomethingNew = true;
+                userContributedToDataBase = true;
             }
 
             if (!DoesTopExistInDB(designerID.id, neckID.id, sleeveID.id, chestID.id))
             {
                 string[] columns = { TABLE_TOP_COLUMN_DESIGNER, TABLE_TOP_COLUMN_NECK, TABLE_TOP_COLUMN_SLEEVE, TABLE_TOP_COLUMN_CHEST };
                 string[] values = { designerID.id.ToString(), neckID.id.ToString(), sleeveID.id.ToString(), chestID.id.ToString() };
-                int id = CreateNewRow(TABLE_TOP, columns, values);
-                if(id > 0)
+                try
                 {
-                    userAddedSomethingNew = true;
+                    int id = CreateNewRow(TABLE_TOP, columns, values);
+                    
+                    //User contributed a new top to the database!
+                    if (id > 0)
+                    {
+                        userContributedToDataBase = true;
+                    }
+                }
+                catch
+                {
+                    //If create New Row throws its exception it means that this are now more than 1 tops by this designer
                 }
             }
 
-            return userAddedSomethingNew;
+            return userContributedToDataBase;
         }
 
         /// <summary>
@@ -164,9 +167,9 @@ namespace FitMe.Controller
         /// <param name="command"></param>
         private void ReadFromTable(Dictionary<int, string> dict, string table, string valueString, string command)
         {
-            MySqlCommand cmd = new MySqlCommand(command, FitMeDataBaseConnection);
+            MySqlCommand cmd = DataBase.GetMySqlCommand(command);
 
-            FitMeDataBaseConnection.OpenAsync();
+            DataBase.Open();
             using (MySqlDataReader reader = cmd.ExecuteReader())
             {
                 while (reader.Read())
@@ -176,7 +179,7 @@ namespace FitMe.Controller
                     dict.Add(Convert.ToInt32(key), value);
                 }
             }
-            FitMeDataBaseConnection.CloseAsync();
+            DataBase.Close();
             cmd.Dispose();
         }
 
@@ -204,7 +207,7 @@ namespace FitMe.Controller
                     }
                 }
  
-                //try adding the new value if it isn't a repeate
+                //try adding the new value if it isn't a repeat
                 if (!valueExists)
                 {
                     string[] columnArray = { column };
@@ -233,28 +236,25 @@ namespace FitMe.Controller
 
             if (columns.Length == values.Length)
             {
-                using (MySqlCommand insert = new MySqlCommand())
+                string command = "INSERT INTO " + table + " (";
+                foreach (string col in columns)
                 {
-                    string command = "INSERT INTO " + table + " (";
-                    foreach(string col in columns)
-                    {
-                        command += col + ",";
-                    }
-                    //Remove the last comma
-                    command = command.Remove(command.Length - 1,1);
-                    command += ") VALUES(";
-                    foreach (string val in values)
-                    {
-                        command += "\'" + val + "\',";
-                    }
-                    //Remove the last comma
-                    command = command.Remove(command.Length - 1,1);
-                    command += ")";
+                    command += col + ",";
+                }
+                //Remove the last comma
+                command = command.Remove(command.Length - 1, 1);
+                command += ") VALUES(";
+                foreach (string val in values)
+                {
+                    command += "\'" + val + "\',";
+                }
+                //Remove the last comma
+                command = command.Remove(command.Length - 1, 1);
+                command += ")";
 
-                    insert.CommandText = command;
-                    insert.Connection = FitMeDataBaseConnection;
-
-                    FitMeDataBaseConnection.Open();
+                using (MySqlCommand insert = DataBase.GetMySqlCommand(command))
+                {
+                    DataBase.Open();
 
                     if (insert.ExecuteNonQuery() > 0)
                     {
@@ -271,7 +271,7 @@ namespace FitMe.Controller
                         returnValue = dict.Keys.First();
                     }
 
-                    FitMeDataBaseConnection.Close();
+                    DataBase.Close();
                 }
             }   
 
