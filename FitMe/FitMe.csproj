@@ -177,6 +177,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="About.aspx" />
+    <Content Include="AccountSignUp.aspx" />
+    <Content Include="AccountSignIn.aspx" />
     <Content Include="AddItem.aspx" />
     <Content Include="Contact.aspx" />
     <Content Include="Default.aspx" />
@@ -222,6 +224,20 @@
     <Content Include="Users.aspx" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AccountSignUp.aspx.cs">
+      <DependentUpon>AccountSignUp.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="AccountSignUp.aspx.designer.cs">
+      <DependentUpon>AccountSignUp.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="AccountSignIn.aspx.cs">
+      <DependentUpon>AccountSignIn.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="AccountSignIn.aspx.designer.cs">
+      <DependentUpon>AccountSignIn.aspx</DependentUpon>
+    </Compile>
     <Compile Include="AddItem.aspx.cs">
       <DependentUpon>AddItem.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -245,7 +261,7 @@
     <Compile Include="Contact.aspx.designer.cs">
       <DependentUpon>Contact.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Controller\Top.cs" />
+    <Compile Include="Models\ClothesModel\TopModel\Controller\Top.cs" />
     <Compile Include="Default.aspx.cs">
       <DependentUpon>Default.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -253,7 +269,7 @@
     <Compile Include="Default.aspx.designer.cs">
       <DependentUpon>Default.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Controller\TopModel.cs" />
+    <Compile Include="Models\ClothesModel\TopModel\Controller\TopModel.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -277,6 +293,11 @@
     <Compile Include="Users.aspx.designer.cs">
       <DependentUpon>Users.aspx</DependentUpon>
     </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Models\ClothesModel\TopModel\View\" />
+    <Folder Include="Models\UserModel\Controller\" />
+    <Folder Include="Models\UserModel\View\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
