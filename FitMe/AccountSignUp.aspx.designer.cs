@@ -10,60 +10,60 @@
 namespace FitMe {
     
     
-    public partial class Main {
+    public partial class AccountSignUp {
         
         /// <summary>
-        /// Head1 control.
+        /// tbFirstName control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlHead Head1;
+        protected global::System.Web.UI.WebControls.TextBox tbFirstName;
         
         /// <summary>
-        /// StyleSection control.
+        /// tbLastName control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ContentPlaceHolder StyleSection;
+        protected global::System.Web.UI.WebControls.TextBox tbLastName;
         
         /// <summary>
-        /// divLogin control.
+        /// tbEmail control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl divLogin;
+        protected global::System.Web.UI.WebControls.TextBox tbEmail;
         
         /// <summary>
-        /// divLogout control.
+        /// tbPassword control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl divLogout;
+        protected global::System.Web.UI.WebControls.TextBox tbPassword;
         
         /// <summary>
-        /// ContentSection control.
+        /// tbPasswordVerify control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ContentPlaceHolder ContentSection;
+        protected global::System.Web.UI.WebControls.TextBox tbPasswordVerify;
         
         /// <summary>
-        /// ScriptSection control.
+        /// btnSignUp control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ContentPlaceHolder ScriptSection;
+        protected global::System.Web.UI.WebControls.Button btnSignUp;
     }
 }

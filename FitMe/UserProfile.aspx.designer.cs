@@ -10,60 +10,42 @@
 namespace FitMe {
     
     
-    public partial class Main {
+    public partial class UserProfile {
         
         /// <summary>
-        /// Head1 control.
+        /// tbFirstName control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlHead Head1;
+        protected global::System.Web.UI.WebControls.TextBox tbFirstName;
         
         /// <summary>
-        /// StyleSection control.
+        /// tbLastName control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ContentPlaceHolder StyleSection;
+        protected global::System.Web.UI.WebControls.TextBox tbLastName;
         
         /// <summary>
-        /// divLogin control.
+        /// tbEmailAddress control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl divLogin;
+        protected global::System.Web.UI.WebControls.TextBox tbEmailAddress;
         
         /// <summary>
-        /// divLogout control.
+        /// btnUpdateProfile control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl divLogout;
-        
-        /// <summary>
-        /// ContentSection control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.ContentPlaceHolder ContentSection;
-        
-        /// <summary>
-        /// ScriptSection control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.ContentPlaceHolder ScriptSection;
+        protected global::System.Web.UI.WebControls.Button btnUpdateProfile;
     }
 }

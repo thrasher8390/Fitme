@@ -176,7 +176,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="AccountLogout.aspx" />
     <Content Include="About.aspx" />
+    <Content Include="UserProfile.aspx" />
+    <Content Include="AccountSignUp.aspx" />
+    <Content Include="AccountSignIn.aspx" />
     <Content Include="AddItem.aspx" />
     <Content Include="Contact.aspx" />
     <Content Include="Default.aspx" />
@@ -222,6 +226,34 @@
     <Content Include="Users.aspx" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AccountLogout.aspx.cs">
+      <DependentUpon>AccountLogout.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="AccountLogout.aspx.designer.cs">
+      <DependentUpon>AccountLogout.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="UserProfile.aspx.cs">
+      <DependentUpon>UserProfile.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="UserProfile.aspx.designer.cs">
+      <DependentUpon>UserProfile.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="AccountSignUp.aspx.cs">
+      <DependentUpon>AccountSignUp.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="AccountSignUp.aspx.designer.cs">
+      <DependentUpon>AccountSignUp.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="AccountSignIn.aspx.cs">
+      <DependentUpon>AccountSignIn.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="AccountSignIn.aspx.designer.cs">
+      <DependentUpon>AccountSignIn.aspx</DependentUpon>
+    </Compile>
     <Compile Include="AddItem.aspx.cs">
       <DependentUpon>AddItem.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -245,7 +277,8 @@
     <Compile Include="Contact.aspx.designer.cs">
       <DependentUpon>Contact.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Controller\Top.cs" />
+    <Compile Include="Helper\DataBase.cs" />
+    <Compile Include="Models\ClothesModel\TopModel\Controller\Top.cs" />
     <Compile Include="Default.aspx.cs">
       <DependentUpon>Default.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -253,7 +286,7 @@
     <Compile Include="Default.aspx.designer.cs">
       <DependentUpon>Default.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Controller\TopModel.cs" />
+    <Compile Include="Models\ClothesModel\TopModel\Controller\TopModel.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -264,6 +297,8 @@
     <Compile Include="Main.Master.designer.cs">
       <DependentUpon>Main.Master</DependentUpon>
     </Compile>
+    <Compile Include="Models\UserModel\Controller\User.cs" />
+    <Compile Include="Models\UserModel\Controller\UserModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -277,6 +312,10 @@
     <Compile Include="Users.aspx.designer.cs">
       <DependentUpon>Users.aspx</DependentUpon>
     </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Models\ClothesModel\TopModel\View\" />
+    <Folder Include="Models\UserModel\View\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

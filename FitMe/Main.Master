@@ -1,4 +1,5 @@
 ﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Main.master.cs" Inherits="FitMe.Main" %>
+
 <%@ Import Namespace="System.Web.Optimization" %>
 <!DOCTYPE html>
 <html lang="en">
@@ -7,7 +8,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="FitMe Web app for finding close that fit just right">
+    <meta name="description" content="FitMe Web app for finding clothes that fit just right">
     <meta name="Derek Thrasher" content="Sree">
     <asp:PlaceHolder runat="server">
         <%-- Style Section --%>
@@ -15,67 +16,121 @@
     </asp:PlaceHolder>
     <asp:ContentPlaceHolder ID="StyleSection" runat="server" />
 </head>
+<style type="text/css">
+    .roundedcorner {
+        background: #fff;
+        font-family: Times New Roman, Times, serif;
+        font-size: 11pt;
+        margin-left: auto;
+        margin-right: auto;
+        margin-top: 2px;
+        margin-bottom: 2px;
+        padding: 3px;
+        border-top: 1px solid #CCCCCC;
+        border-left: 1px solid #CCCCCC;
+        border-right: 1px solid #999999;
+        border-bottom: 1px solid #999999;
+        -moz-border-radius: 8px;
+        -webkit-border-radius: 8px;
+    }
+</style>
 <body>
     <div class="container">
         <!-- Static navbar -->
         <div class="navbar navbar-default" role="navigation">
-            <div class="container-fluid">
-                <div class="navbar-header">
-                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
-                        <span class="sr-only">Toggle navigation</span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-                    <a class="navbar-brand" href="Default.aspx">FitMe</a>
-                </div>
-                <div class="navbar-collapse collapse">
-                    <ul class="nav navbar-nav">
-                        <li class="active"><a href="Default.aspx">Home</a></li>
-                        <li><a href="About.aspx">About</a></li>
-                        <li><a href="Contact.aspx">Contact Us</a></li>
-                        <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Extras <span class="caret">
-                            </span></a>
+            <div id="divLogin" runat="server">
+                <div class="container-fluid">
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                        <a class="navbar-brand" href="Default.aspx">FitMe</a>
+                    </div>
+                    <div class="navbar-collapse collapse">
+                        <ul class="nav navbar-nav">
+                            <li><a href="Default.aspx">Home</a></li>
+                            <li><a href="About.aspx">About</a></li>
+                            <li><a href="Contact.aspx">Contact Us</a></li>
                             <ul class="dropdown-menu" role="menu">
-                                <li><a href="#">Action</a ></li>
-                                <li class="divider"></li>
-                                <li class="dropdown-header">Other</li>
-                                <li><a href="#">Separated link</a></li>
                             </ul>
-                        </li>
-                    </ul>
-                    <ul class="nav navbar-nav navbar-right">
-                        <li class="active"><a href="./">Home</a></li>
-                        <li><a href="AddItem.aspx">Rate Item</a></li>
-                        <li><a href="Account.aspx">My Account</a></li>
-                    </ul>
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Extras <span class="caret"></span></a>
+                                <ul class="dropdown-menu" role="menu">
+                                    <li><a href="AccountSignIn.aspx">Sign In</a></li>
+                                    <li><a href="AccountSignUp.aspx">Sign Up</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                        <ul class="nav navbar-nav navbar-right">
+                            <li><a href="Default.aspx">Home</a></li>
+                            <li><a href="AccountSignIn.aspx">Sign In</a></li>
+                        </ul>
+                    </div>
+                    <!--/.nav-collapse -->
                 </div>
-                <!--/.nav-collapse -->
+                <!--/.container-fluid -->
             </div>
-            <!--/.container-fluid -->
-        </div>
-        <!-- Content Page Section -->
-        <div class="container">
-            <asp:ContentPlaceHolder ID="ContentSection" runat="server">
-            </asp:ContentPlaceHolder>
+            <div id="divLogout" runat="server">
+                <div class="container-fluid">
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                        <a class="navbar-brand" href="Default.aspx">FitMe</a>
+                    </div>
+                    <div class="navbar-collapse collapse">
+                        <ul class="nav navbar-nav">
+                            <li><a href="Default.aspx">Home</a></li>
+                            <li><a href="About.aspx">About</a></li>
+                            <li><a href="Contact.aspx">Contact Us</a></li>
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Extras <span class="caret"></span></a>
+                                <ul class="dropdown-menu" role="menu">
+                                    <li><a href="AddItem.aspx">Rate Item</a></li>
+                                    <li class="divider"></li>
+                                    <li class="dropdown-header">Other</li>
+                                    <li><a href="AccountLogout.aspx">Log Out</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                        <ul class="nav navbar-nav navbar-right">
+                            <li><a href="Default.aspx">Home</a></li>
+                            <li><a href="AddItem.aspx">Rate Item</a></li>
+                            <li><a href="UserProfile.aspx">My Account</a></li>
+                        </ul>
+                    </div>
+                    <!--/.nav-collapse -->
+                </div>
+                <!--/.container-fluid -->
+            </div>
         </div>
     </div>
+    <!-- Content Page Section -->
+    <div class="container">
+        <asp:ContentPlaceHolder ID="ContentSection" runat="server">
+        </asp:ContentPlaceHolder>
+    </div>
     <footer class="footer">
-        <div class="container" style="text-align:center">
-                <!-- hitwebcounter Code START -->
-                <a href="http://www.hitwebcounter.com" target="_blank" style="align-content:center;align-items:center;text-align:center;">
-                    <img src="http://hitwebcounter.com/counter/counter.php?page=6520975&style=0008&nbdigits=7&type=page&initCount=0" title="my widget for counting" Alt="my widget for counting"   border="0" style="align-self:center">
-                </a>
+        <div class="container" style="text-align: center">
+            <!-- hitwebcounter Code START -->
+            <a href="http://www.hitwebcounter.com" target="_blank" style="align-content: center; align-items: center; text-align: center;">
+                <img src="http://hitwebcounter.com/counter/counter.php?page=6528131&style=0003&nbdigits=5&type=ip&initCount=0" title="my widget for counting" alt="my widget for counting" border="0" style="align-self: center">
+            </a>
         </div>
     </footer>
-    
+
     <!-- /container -->
     <asp:PlaceHolder runat="server">
         <%-- Script Section --%>
         <%: Scripts.Render("~/bundles/jQuery")  %>
     </asp:PlaceHolder>
-    <asp:ContentPlaceHolder ID="ScriptSection" runat="server" />               
+    <asp:ContentPlaceHolder ID="ScriptSection" runat="server" />
 </body>
-    
+
 </html>

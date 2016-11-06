@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FitMe.Models.UserModel.Controller;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -11,6 +12,11 @@ namespace FitMe
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+            Session.Timeout = 60;
+            User currentUser = (User)Session["CurrentUser"];
+
+            divLogin.Visible = (currentUser == null);
+            divLogout.Visible = (currentUser != null);
 
         }
     }

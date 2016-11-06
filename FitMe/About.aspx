@@ -6,6 +6,7 @@
     <div class="jumbotron">
         <h1>About FitMe</h1>
         <p>
+            FitMe was started in 2016.
             Stick around for more info!
         </p>
     </div>
