@@ -28,6 +28,7 @@ namespace FitMe
             user = new UserModel();
             if(user.CreateAccount(firstName, lastName, email, password, passwordVerify))
             {
+                Session["CurrentUser"] = user.CurrentUser;
                 Server.Transfer("UserProfile.aspx", true);
             }
             else

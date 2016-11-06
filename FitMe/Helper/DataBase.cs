@@ -66,9 +66,9 @@ namespace FitMe.Helper
         /// <param name="command"></param>
         public static Dictionary<int, string> ReadFromTable(string table, string valueString, string command)
         {
-            MySqlCommand cmd = DataBase.GetMySqlCommand(command);
+            MySqlCommand cmd = GetMySqlCommand(command);
             Dictionary<int, string> dict = new Dictionary<int, string>();
-            DataBase.Open();
+            Open();
             using (MySqlDataReader reader = cmd.ExecuteReader())
             {
                 while (reader.Read())
@@ -78,11 +78,12 @@ namespace FitMe.Helper
                     dict.Add(Convert.ToInt32(key), value);
                 }
             }
-            DataBase.Close();
+            Close();
             cmd.Dispose();
 
             return dict;
         }
+
         /// <summary>
         /// We should try to create a designer
         /// </summary>
@@ -152,14 +153,14 @@ namespace FitMe.Helper
                 command = command.Remove(command.Length - 1, 1);
                 command += ")";
 
-                using (MySqlCommand insert = DataBase.GetMySqlCommand(command))
+                using (MySqlCommand insert = GetMySqlCommand(command))
                 {
-                    DataBase.Open();
+                    Open();
 
                     if (insert.ExecuteNonQuery() > 0)
                     {
                         string readCommand = "SELECT * FROM `" + table + "` WHERE " + columns[0] + " = \"" + values[0] + "\"";
-                        Dictionary<int, string> dict = DataBase.ReadFromTable(table, columns[0], readCommand);
+                        Dictionary<int, string> dict = ReadFromTable(table, columns[0], readCommand);
 
                         //TODO should we ever be seeing this sort of error?
                         if (dict.Count > 1)
@@ -170,13 +171,40 @@ namespace FitMe.Helper
                         returnValue = dict.Keys.First();
                     }
 
-                    DataBase.Close();
+                    Close();
                 }
             }
 
             return returnValue;
         }
+
+        /// <summary>
+        /// Update a specific column of a row in a table
+        /// </summary>
+        /// <param name="tableWithColumn"></param>
+        /// <param name="tableRowID"></param>
+        /// <param name="columnToUpdate"></param>
+        /// <param name="newValue"></param>
+        /// <returns></returns>
+        internal static Boolean UpdateColumn(string tableWithColumn, int tableRowID, string columnToUpdate, string newValue)
+        {
+            Boolean columnUpdated = false;
+
+            string command = "UPDATE " + tableWithColumn + " SET " + columnToUpdate + "=\'" + tableRowID + "\' WHERE id=\'" + newValue + "\'";
+            using (MySqlCommand insert = GetMySqlCommand(command))
+            {
+                Open();
+
+                if (insert.ExecuteNonQuery() > 0)
+                {
+                    columnUpdated = true;
+                }
+            }
+
+            return columnUpdated;
+        }
     }
+
     /// <summary>
     /// This is used for when we are adding to a DB we can return if the row was created successfully and the unique id of the new row
     /// </summary>

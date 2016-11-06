@@ -1,10 +1,27 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Main.Master" AutoEventWireup="true" CodeBehind="UserProfile.aspx.cs" Inherits="FitMe.UserProfile" %>
+
 <asp:Content ID="Content1" ContentPlaceHolderID="StyleSection" runat="server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentSection" runat="server">
-   <div class="jumbotron">
-       <p>Welcome user!</p>
-   </div>
+    <form runat="server">
+        <div class="jumbotron" runat="server">
+            <h1>Welcome to your FitMe account!</h1>
+            <p>
+                First Name: 
+                <asp:TextBox runat="server" ID="tbFirstName" CssClass="roundedcorner"></asp:TextBox>
+            </p>
+            <p>
+                Last Name: 
+                <asp:TextBox runat="server" ID="tbLastName" CssClass="roundedcorner"></asp:TextBox>
+            </p>
+            <p>
+                Email Address / UserName: 
+            <asp:TextBox runat="server" ID="tbEmailAddress" ReadOnly="true" CssClass="roundedcorner"></asp:TextBox>
+            </p>
+            <br />
+            <asp:Button runat="server" ID="btnUpdateProfile" Text="Update Profile" OnClick="btnUpdateProfile_Click" CssClass="btn btn-primary"/>
+        </div>
+    </form>
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="ScriptSection" runat="server">
 </asp:Content>

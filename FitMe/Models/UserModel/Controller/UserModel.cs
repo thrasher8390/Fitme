@@ -2,21 +2,20 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Cryptography;
-using System.Web;
-using System.IO;
-using System.Text;
 using MySql.Data.MySqlClient;
+using Newtonsoft.Json;
 
 namespace FitMe.Models.UserModel.Controller
 {
     public class UserModel
     {
         public Dictionary<int, string> EmailDict = new Dictionary<int, string>();
+        public User CurrentUser = null;
 
         private const string TABLE_USER = "fitmeusers";
         private const string TABLE_USER_COLUMN_EMAIL = "email";
         private const string TABLE_USER_COLUMN_HASHPASS = "passHash";
+        private const string TABLE_USER_COLUMN_USERPROFILE = "json";
 
         public UserModel()
         {
@@ -86,11 +85,23 @@ namespace FitMe.Models.UserModel.Controller
                     while (userReader.Read())
                     {
 
-                        int topID = Convert.ToInt32(userReader.GetString(DataBase.COLUMN_ID));
-                        if((userReader.GetString(TABLE_USER_COLUMN_EMAIL).Equals(email)) &&
-                            (userReader.GetInt64(TABLE_USER_COLUMN_HASHPASS) == HashPassword(password)))
+                        int userID = Convert.ToInt32(userReader.GetString(DataBase.COLUMN_ID));
+                        string userEmail = userReader.GetString(TABLE_USER_COLUMN_EMAIL);
+                        Int64 userPassHash = userReader.GetInt64(TABLE_USER_COLUMN_HASHPASS);
+                        if((userEmail.Equals(email)) &&
+                            ( userPassHash== HashPassword(password)))
                         {
                             returnValue = true;
+
+                            CurrentUser = JsonConvert.DeserializeObject<User>(userReader.GetString(TABLE_USER_COLUMN_USERPROFILE));
+
+                            if (CurrentUser == null)
+                            {
+                                CurrentUser = new User();
+                                CurrentUser.ID = userID;
+                                CurrentUser.EmailAddress = userEmail;
+                                CurrentUser.Password = userPassHash;
+                            }
                         }
                         else
                         {
@@ -139,6 +150,8 @@ namespace FitMe.Models.UserModel.Controller
         {
             Boolean userContributedToDataBase = false;
 
+            string json = JsonConvert.SerializeObject(CurrentUser);
+
             string[] columns = { TABLE_USER_COLUMN_EMAIL, TABLE_USER_COLUMN_HASHPASS};
             string[] values = { email, p.ToString() };
 
@@ -149,9 +162,21 @@ namespace FitMe.Models.UserModel.Controller
             {
                 userContributedToDataBase = true;
                 EmailDict.Add(id, email);
+                CurrentUser = new User(id, firstName, lastName, email, p);
+                UpdateUserProfile(CurrentUser);
             }
 
             return userContributedToDataBase;
+        }
+
+        /// <summary>
+        /// Update the database with the new user profile
+        /// </summary>
+        /// <param name="user"></param>
+        public void UpdateUserProfile(User user)
+        {
+            string userString = JsonConvert.SerializeObject(user);
+            DataBase.UpdateColumn(TABLE_USER, user.ID,TABLE_USER_COLUMN_USERPROFILE, userString);
         }
 
         /// <summary>

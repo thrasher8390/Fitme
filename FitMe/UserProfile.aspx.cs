@@ -10,18 +10,32 @@ namespace FitMe
 {
     public partial class UserProfile : System.Web.UI.Page
     {
-
+        UserModel userModel = new UserModel();
 
         protected void Page_Load(object sender, EventArgs e)
         {
-
+            if (!IsPostBack)
+            {
+                User user = (User)Session["CurrentUser"];
+                try
+                {
+                    tbFirstName.Text = user.FirstName;
+                    tbLastName.Text = user.LastName;
+                    tbEmailAddress.Text = user.EmailAddress;
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("0x0002," + ex.ToString());
+                }
+            }
         }
 
-        protected void btnSignIn_Click(object sender, EventArgs e)
+        protected void btnUpdateProfile_Click(Object sender, EventArgs e)
         {
-
+            User user = (User)Session["CurrentUser"];
+            user.FirstName = tbFirstName.Text;
+            user.LastName = tbLastName.Text;
+            userModel.UpdateUserProfile(user);
         }
-
-
     }
 }
