@@ -26,12 +26,16 @@ namespace FitMe
             string passwordVerify = tbPasswordVerify.Text;
 
             user = new UserModel();
-            user.CreateAccount(firstName, lastName, email, password, passwordVerify);
-            //Acount Sign In
-            //We should check to see if the account exists. If the account exists we should flip to the signin screen
-            //Sing in and go to User Profile!
+            if(user.CreateAccount(firstName, lastName, email, password, passwordVerify))
+            {
+                Server.Transfer("UserProfile.aspx", true);
+            }
+            else
+            {
+                //switch case for handling Create Account
+                //Account exists: If the account exists we should flip to the signin screen
+                //Successful Signin: Go to User Profile!
+            }
         }
-
-
     }
 }

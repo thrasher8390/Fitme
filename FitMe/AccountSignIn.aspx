@@ -42,8 +42,6 @@
                 </div>
 			</div>
 		</div>
-                                </div>
-                                </div>
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="ScriptSection" runat="server">
 </asp:Content>

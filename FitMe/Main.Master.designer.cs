@@ -31,6 +31,24 @@ namespace FitMe {
         protected global::System.Web.UI.WebControls.ContentPlaceHolder StyleSection;
         
         /// <summary>
+        /// divLogin control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl divLogin;
+        
+        /// <summary>
+        /// divLogout control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl divLogout;
+        
+        /// <summary>
         /// ContentSection control.
         /// </summary>
         /// <remarks>

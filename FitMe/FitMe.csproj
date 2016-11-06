@@ -176,7 +176,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="AccountLogout.aspx" />
     <Content Include="About.aspx" />
+    <Content Include="UserProfile.aspx" />
     <Content Include="AccountSignUp.aspx" />
     <Content Include="AccountSignIn.aspx" />
     <Content Include="AddItem.aspx" />
@@ -224,6 +226,20 @@
     <Content Include="Users.aspx" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AccountLogout.aspx.cs">
+      <DependentUpon>AccountLogout.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="AccountLogout.aspx.designer.cs">
+      <DependentUpon>AccountLogout.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="UserProfile.aspx.cs">
+      <DependentUpon>UserProfile.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="UserProfile.aspx.designer.cs">
+      <DependentUpon>UserProfile.aspx</DependentUpon>
+    </Compile>
     <Compile Include="AccountSignUp.aspx.cs">
       <DependentUpon>AccountSignUp.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>

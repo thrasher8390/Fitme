@@ -14,6 +14,10 @@ namespace FitMe
 
         protected void Page_Load(object sender, EventArgs e)
         {
+            if(Session["CurrentUser"] == null)
+            {
+                Server.Transfer("Default.aspx", true);
+            }
             //TODO we need a better way of updating the local topmodel db
             Top = new TopModel();
             lblInvalidDesignerName.Visible = false;

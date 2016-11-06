@@ -8,16 +8,20 @@ using System.Web.UI.WebControls;
 
 namespace FitMe
 {
-    public partial class Main : System.Web.UI.MasterPage
+    public partial class UserProfile : System.Web.UI.Page
     {
+
+
         protected void Page_Load(object sender, EventArgs e)
         {
-            Session.Timeout = 60;
-            User currentUser = (User)Session["CurrentUser"];
-
-            divLogin.Visible = (currentUser == null);
-            divLogout.Visible = (currentUser != null);
 
         }
+
+        protected void btnSignIn_Click(object sender, EventArgs e)
+        {
+
+        }
+
+
     }
 }

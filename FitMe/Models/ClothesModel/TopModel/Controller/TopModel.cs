@@ -13,7 +13,6 @@ namespace FitMe.Controller
     {
         private List<Top> Tops = new List<Top>();
 
-        const string COLUMN_ID = "id";
         const string COLUMN_NAME = "Name";
         const string COLUMN_SIZE = "Size";
 
@@ -40,10 +39,10 @@ namespace FitMe.Controller
         public TopModel()
         {
             //Read all of the shirt properties
-            ReadFromTable(ChestDict, TABLE_CHEST, COLUMN_SIZE);
-            ReadFromTable(DesignerDict, TABLE_DESIGNER , COLUMN_NAME);
-            ReadFromTable(NeckDict, TABLE_NECK, COLUMN_SIZE);
-            ReadFromTable(SleeveDict, TABLE_SLEEVE, COLUMN_SIZE);
+            ChestDict = DataBase.ReadFromTable(TABLE_CHEST, COLUMN_SIZE);
+            DesignerDict = DataBase.ReadFromTable(TABLE_DESIGNER, COLUMN_NAME);
+            NeckDict = DataBase.ReadFromTable(TABLE_NECK, COLUMN_SIZE);
+            SleeveDict = DataBase.ReadFromTable(TABLE_SLEEVE, COLUMN_SIZE);
 
             DataBase.Open();
 
@@ -52,7 +51,7 @@ namespace FitMe.Controller
             {
                 while (topReader.Read())
                 {
-                    int topID = Convert.ToInt32(topReader.GetString(COLUMN_ID));
+                    int topID = Convert.ToInt32(topReader.GetString(DataBase.COLUMN_ID));
                     int designerID = Convert.ToInt32(topReader.GetString(TABLE_TOP_COLUMN_DESIGNER));
                     int neckID = Convert.ToInt32(topReader.GetString(TABLE_TOP_COLUMN_NECK));
                     int chestID = 0;
@@ -72,7 +71,7 @@ namespace FitMe.Controller
 
             }
 
-            DataBase.Close();       
+            DataBase.Close();
         }
 
         /// <summary>
@@ -86,16 +85,16 @@ namespace FitMe.Controller
         {
             Boolean userContributedToDataBase = false;
 
-            TopDBAdd designerID = TryUpdatingTables(DesignerDict, TABLE_DESIGNER, COLUMN_NAME, designer);
-            TopDBAdd neckID = TryUpdatingTables(NeckDict, TABLE_NECK, COLUMN_SIZE, neck);
-            TopDBAdd sleeveID = TryUpdatingTables(SleeveDict, TABLE_SLEEVE, COLUMN_SIZE, sleeve);
-            TopDBAdd chestID = TryUpdatingTables(ChestDict, TABLE_CHEST, COLUMN_SIZE, chest);
+            DataBaseResults designerID = DataBase.TryUpdatingTables(DesignerDict, TABLE_DESIGNER, COLUMN_NAME, designer);
+            DataBaseResults neckID = DataBase.TryUpdatingTables(NeckDict, TABLE_NECK, COLUMN_SIZE, neck);
+            DataBaseResults sleeveID = DataBase.TryUpdatingTables(SleeveDict, TABLE_SLEEVE, COLUMN_SIZE, sleeve);
+            DataBaseResults chestID = DataBase.TryUpdatingTables(ChestDict, TABLE_CHEST, COLUMN_SIZE, chest);
 
             //Did the user contribute to the dataBase?
-            if ( designerID.AddedNewValue ||
+            if (designerID.AddedNewValue ||
                 neckID.AddedNewValue ||
                 sleeveID.AddedNewValue ||
-                chestID.AddedNewValue) 
+                chestID.AddedNewValue)
             {
                 userContributedToDataBase = true;
             }
@@ -106,8 +105,8 @@ namespace FitMe.Controller
                 string[] values = { designerID.id.ToString(), neckID.id.ToString(), sleeveID.id.ToString(), chestID.id.ToString() };
                 try
                 {
-                    int id = CreateNewRow(TABLE_TOP, columns, values);
-                    
+                    int id = DataBase.CreateNewRow(TABLE_TOP, columns, values);
+
                     //User contributed a new top to the database!
                     if (id > 0)
                     {
@@ -134,9 +133,9 @@ namespace FitMe.Controller
         private Boolean DoesTopExistInDB(int designer, int neck, int sleeve, int chest)
         {
             Boolean doesTopExist = false;
-            foreach(Top top in Tops)
+            foreach (Top top in Tops)
             {
-                if(top.IsMatch(designer, neck, sleeve, chest))
+                if (top.IsMatch(designer, neck, sleeve, chest))
                 {
                     doesTopExist = true;
                     break;
@@ -144,151 +143,6 @@ namespace FitMe.Controller
             }
 
             return doesTopExist;
-        }
-
-        /// <summary>
-        /// Read for a table in FitMeDataBase and add value to a dictionary
-        /// </summary>
-        /// <param name="dict"></param>
-        /// <param name="table"></param>
-        /// <param name="valueString"></param>
-        private void ReadFromTable(Dictionary<int,string> dict, string table, string valueString)
-        {
-            string command = "SELECT * FROM " + table;
-            ReadFromTable(dict, table, valueString, command);
-        }
-
-        /// <summary>
-        /// Read into dictionary from a table/command and its column
-        /// </summary>
-        /// <param name="dict"></param>
-        /// <param name="table"></param>
-        /// <param name="valueString"></param>
-        /// <param name="command"></param>
-        private void ReadFromTable(Dictionary<int, string> dict, string table, string valueString, string command)
-        {
-            MySqlCommand cmd = DataBase.GetMySqlCommand(command);
-
-            DataBase.Open();
-            using (MySqlDataReader reader = cmd.ExecuteReader())
-            {
-                while (reader.Read())
-                {
-                    String key = reader.GetString(COLUMN_ID);
-                    String value = reader.GetString(valueString);
-                    dict.Add(Convert.ToInt32(key), value);
-                }
-            }
-            DataBase.Close();
-            cmd.Dispose();
-        }
-
-        /// <summary>
-        /// We should try to create a designer
-        /// </summary>
-        /// /// <param name="dict"></param
-        /// <param name="designername"></param
-        /// <returns>user contributed to the database!</returns>
-        private TopDBAdd TryUpdatingTables(Dictionary<int,string> dict, string table, string column, string value)
-        {
-            TopDBAdd newItemTracker = new TopDBAdd();
-
-            if( !String.IsNullOrEmpty(column) &&
-                !String.IsNullOrEmpty(value))
-            {
-                Boolean valueExists = false;
-                //Lets make sure it isn't formatting
-                foreach (KeyValuePair<int,string> dictItem in dict)
-                {
-                    if (dictItem.Value.ToLower().Equals(value.ToLower()))
-                    {
-                        valueExists = true;
-                        newItemTracker.id = dictItem.Key;
-                    }
-                }
- 
-                //try adding the new value if it isn't a repeat
-                if (!valueExists)
-                {
-                    string[] columnArray = { column };
-                    string[] valueArray = { value };
-                    newItemTracker.id = CreateNewRow(table, columnArray, valueArray);
-                    if(newItemTracker.id > 0)
-                    {
-                        newItemTracker.AddedNewValue = true;
-                    }
-                }
-            }
-
-            return newItemTracker;
-        }
-
-        /// <summary>
-        /// Insert a new value into a new row of a specified table
-        /// </summary>
-        /// <param name="table"></param>
-        /// <param name="column"></param>
-        /// <param name="value"></param>
-        /// <returns>id of the new row</returns>
-        private int CreateNewRow(string table, string[] columns, string[] values)
-        {
-            int returnValue = 0;
-
-            if (columns.Length == values.Length)
-            {
-                string command = "INSERT INTO " + table + " (";
-                foreach (string col in columns)
-                {
-                    command += col + ",";
-                }
-                //Remove the last comma
-                command = command.Remove(command.Length - 1, 1);
-                command += ") VALUES(";
-                foreach (string val in values)
-                {
-                    command += "\'" + val + "\',";
-                }
-                //Remove the last comma
-                command = command.Remove(command.Length - 1, 1);
-                command += ")";
-
-                using (MySqlCommand insert = DataBase.GetMySqlCommand(command))
-                {
-                    DataBase.Open();
-
-                    if (insert.ExecuteNonQuery() > 0)
-                    {
-                        string readCommand = "SELECT * FROM `" + table + "` WHERE " + columns[0] + " = \"" + values[0] + "\"";
-                        Dictionary<int, string> dict = new Dictionary<int, string>();
-                        ReadFromTable(dict, table, columns[0], readCommand);
-
-                        //TODO should we ever be seeing this sort of error?
-                        if (dict.Count > 1)
-                        {
-                            throw new Exception("0x0000, When reading for the colum there was more than 1 id with the filtered value, " + dict.ToString());
-                        }
-
-                        returnValue = dict.Keys.First();
-                    }
-
-                    DataBase.Close();
-                }
-            }   
-
-            return returnValue;
-        }
-    }
-
-    /// <summary>
-    /// This is used for when we are adding to a DB we can return if the row was created successfully and the unique id of the new row
-    /// </summary>
-    public class TopDBAdd
-    {
-        public int id = 0;
-        public Boolean AddedNewValue = false;
-        public TopDBAdd()
-        {
-
         }
     }
 }

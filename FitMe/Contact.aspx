@@ -9,7 +9,7 @@
             Stick around for more info!
         </p>
         <p>
-            Report Bug / Request Feature <a href="https://trello.com/b/4xTX2LuP" target="_blank">HERE</a>
+            Track Bugs and Features being worked on <a href="https://trello.com/b/4xTX2LuP" target="_blank">HERE</a> (You can even VOTE for the ones you like!)
         </p>
     </div>
 </asp:Content>

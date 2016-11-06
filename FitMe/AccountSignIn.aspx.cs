@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FitMe.Models.UserModel.Controller;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -9,8 +10,11 @@ namespace FitMe
 {
     public partial class AccountSignIn : System.Web.UI.Page
     {
+        UserModel user;
+
         protected void Page_Load(object sender, EventArgs e)
         {
+            user = new UserModel();
             tbUserName.Focus();
         }
 
@@ -19,7 +23,19 @@ namespace FitMe
             string userName = tbUserName.Text.ToLower();
             string password = tbPassword.Text;
 
-            //Sing in and go to User Profile!
+            user = new UserModel();
+            if(user.SignInToAccount(userName, password))
+            {
+                Session["CurrentUser"] = new User();
+                Server.Transfer("UserProfile.aspx",true);
+            }
+            else
+            {
+                //show failure message
+            }
+            
+            //If successfull: go to User Profile!
+            //If failure : say that email or password was not found
         }
 
 
