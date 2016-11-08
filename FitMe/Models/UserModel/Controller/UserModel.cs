@@ -173,10 +173,10 @@ namespace FitMe.Models.UserModel.Controller
         /// Update the database with the new user profile
         /// </summary>
         /// <param name="user"></param>
-        public void UpdateUserProfile(User user)
+        public Boolean UpdateUserProfile(User user)
         {
             string userString = JsonConvert.SerializeObject(user);
-            DataBase.UpdateColumn(TABLE_USER, user.ID,TABLE_USER_COLUMN_USERPROFILE, userString);
+            return DataBase.UpdateColumn(TABLE_USER, user.ID,TABLE_USER_COLUMN_USERPROFILE, userString);
         }
 
         /// <summary>

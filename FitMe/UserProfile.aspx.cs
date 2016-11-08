@@ -16,6 +16,8 @@ namespace FitMe
         {
             if (!IsPostBack)
             {
+                lblUpdateSuccessfull.Visible = false;
+
                 User user = (User)Session["CurrentUser"];
                 try
                 {
@@ -35,7 +37,8 @@ namespace FitMe
             User user = (User)Session["CurrentUser"];
             user.FirstName = tbFirstName.Text;
             user.LastName = tbLastName.Text;
-            userModel.UpdateUserProfile(user);
+            
+            lblUpdateSuccessfull.Visible = userModel.UpdateUserProfile(user);           
         }
     }
 }

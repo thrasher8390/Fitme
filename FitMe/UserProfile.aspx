@@ -20,6 +20,7 @@
             </p>
             <br />
             <asp:Button runat="server" ID="btnUpdateProfile" Text="Update Profile" OnClick="btnUpdateProfile_Click" CssClass="btn btn-primary"/>
+            <asp:Label runat="server" ID="lblUpdateSuccessfull" Text="Your profile has been updated!" ForeColor="Green" Visible="false"></asp:Label>
         </div>
     </form>
 </asp:Content>

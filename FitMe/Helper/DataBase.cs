@@ -23,7 +23,14 @@ namespace FitMe.Helper
                 if (!isOpen)
                 {
                     isOpen = true;
-                    FitMeDataBaseConnection.Open();
+                    try
+                    {
+                        FitMeDataBaseConnection.Open();
+                    }
+                    catch(Exception ex)
+                    {
+                        Console.WriteLine("0x0003,Database is not responding");
+                    }
                 }
             }
         }
@@ -190,7 +197,7 @@ namespace FitMe.Helper
         {
             Boolean columnUpdated = false;
 
-            string command = "UPDATE " + tableWithColumn + " SET " + columnToUpdate + "=\'" + tableRowID + "\' WHERE id=\'" + newValue + "\'";
+            string command = "UPDATE " + tableWithColumn + " SET " + columnToUpdate + "=\'" + newValue + "\' WHERE id=\'" + tableRowID + "\'";
             using (MySqlCommand insert = GetMySqlCommand(command))
             {
                 Open();
