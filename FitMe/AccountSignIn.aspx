@@ -13,7 +13,7 @@
 							<fieldset>
 								<div class="row">
 									<div class="center-block" style="text-align:center" >
-										<img class="profile-img" src="https://scontent-atl3-1.xx.fbcdn.net/v/t1.0-1/p160x160/14492317_10207407225799009_6469008992148351723_n.jpg?oh=53a7338dfc0b8a5fbaae2ad4ff37e736&oe=58D57619" alt="">
+										<img class="profile-img" src="http://www.wishalerts.com/sites/default/files/user_default_images/default-profile-pic.jpg" alt="">
 									</div>
 								</div>
 								<div class="row">

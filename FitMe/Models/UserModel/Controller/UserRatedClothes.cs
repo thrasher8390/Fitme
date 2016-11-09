@@ -9,9 +9,9 @@ namespace FitMe.Models.UserModel.Controller
 {
     public class UserRatedClothes
     {
-        Clothes.Type ItemType;
-        int ItemID;
-        int Rating;
+        public Clothes.Type ItemType;
+        public int ItemID;
+        public int Rating;
 
         public UserRatedClothes(Clothes.Type itemType, int itemID, int rating)
         {

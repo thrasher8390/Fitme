@@ -92,28 +92,24 @@ namespace FitMe.Controller
             DataBaseResults chestID = DataBase.TryUpdatingTables(ChestDict, TABLE_CHEST, COLUMN_SIZE, chest);
 
             //Did the user contribute to the dataBase?
-            if (designerID.AddedNewValue ||
-                neckID.AddedNewValue ||
-                sleeveID.AddedNewValue ||
-                chestID.AddedNewValue)
+            if (designerID.NewItemAdded ||
+                neckID.NewItemAdded ||
+                sleeveID.NewItemAdded ||
+                chestID.NewItemAdded)
             {
-                userContributedToDataBase.AddedNewValue = true;
+                userContributedToDataBase.NewItemAdded = true;
             }
 
-            if (!DoesTopExistInDB(designerID.id, neckID.id, sleeveID.id, chestID.id))
+            userContributedToDataBase = DoesTopExistInDB(designerID.ID, neckID.ID, sleeveID.ID, chestID.ID);
+
+            //If item doesn't exist lets try to add it
+            if (!userContributedToDataBase.ItemIDExists)
             {
                 string[] columns = { TABLE_TOP_COLUMN_DESIGNER, TABLE_TOP_COLUMN_NECK, TABLE_TOP_COLUMN_SLEEVE, TABLE_TOP_COLUMN_CHEST, TABLE_TOP_COLUMN_CREATEDBYUSER };
-                string[] values = { designerID.id.ToString(), neckID.id.ToString(), sleeveID.id.ToString(), chestID.id.ToString(), UserID.ToString() };
+                string[] values = { designerID.ID.ToString(), neckID.ID.ToString(), sleeveID.ID.ToString(), chestID.ID.ToString(), UserID.ToString() };
                 try
                 {
-                    int id = DataBase.CreateNewRow(TABLE_TOP, columns, values);
-
-                    //User contributed a new top to the database!
-                    if (id > 0)
-                    {
-                        userContributedToDataBase.AddedNewValue = true;
-                        userContributedToDataBase.id = id;
-                    }
+                    userContributedToDataBase = DataBase.CreateNewRow(TABLE_TOP, columns, values);
                 }
                 catch
                 {
@@ -132,14 +128,15 @@ namespace FitMe.Controller
         /// <param name="sleeve"></param>
         /// <param name="chest"></param>
         /// <returns>top already exists</returns>
-        private Boolean DoesTopExistInDB(int designer, int neck, int sleeve, int chest)
+        private DataBaseResults DoesTopExistInDB(int designer, int neck, int sleeve, int chest)
         {
-            Boolean doesTopExist = false;
+            DataBaseResults doesTopExist = new DataBaseResults();
             foreach (Top top in Tops)
             {
                 if (top.IsMatch(designer, neck, sleeve, chest))
                 {
-                    doesTopExist = true;
+                    doesTopExist.ItemIDExists = true;
+                    doesTopExist.ID = top.ID;
                     break;
                 }
             }

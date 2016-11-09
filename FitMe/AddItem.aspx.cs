@@ -71,12 +71,15 @@ namespace FitMe
             {
                 //Make sure the inputs are correct
                 DataBaseResults result = Top.Create(tbDesignerName.Text, tbNeckSize.Text, tbSleeveSize.Text, tbChestSize.Text, CurrentUser.ID);
-                if (result.AddedNewValue)
+                if (result.NewItemAdded)
                 {
                     lblSuccessfullyAddedItem.Visible = true;
+                }
 
+                if (result.ItemIDExists)
+                {
                     //TODO the next to lines should be placed in stage 4 of clothes model rating
-                    UserRatedClothes item = new UserRatedClothes(Clothes.Type.Top, result.id, 0);
+                    UserRatedClothes item = new UserRatedClothes(Clothes.Type.Top, result.ID, 0);
                     CurrentUser.Closet.Add(item);
                     UserModel.UpdateUserProfile(CurrentUser);
                 }

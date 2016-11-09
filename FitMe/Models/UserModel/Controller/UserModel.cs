@@ -40,7 +40,7 @@ namespace FitMe.Models.UserModel.Controller
             {
                 if (password.Equals(passwordVerify))
                 {
-                    if(CreateNewUser(firstName,lastName,email,HashPassword(password)))
+                    if(CreateNewUser(firstName,lastName,email,HashPassword(password)).NewItemAdded)
                     {
                         returnValue = SignInToAccount(email, password);
                     }
@@ -149,27 +149,26 @@ namespace FitMe.Models.UserModel.Controller
         /// <param name="email"></param>
         /// <param name="p"></param>
         /// <returns></returns>
-        private Boolean CreateNewUser(string firstName, string lastName, string email, Int64 p)
+        private DataBaseResults CreateNewUser(string firstName, string lastName, string email, Int64 p)
         {
-            Boolean userContributedToDataBase = false;
+            DataBaseResults isNewUser = new DataBaseResults();
 
             string json = JsonConvert.SerializeObject(CurrentUser);
 
             string[] columns = { TABLE_USER_COLUMN_EMAIL, TABLE_USER_COLUMN_HASHPASS};
             string[] values = { email, p.ToString() };
 
-            int id = DataBase.CreateNewRow(TABLE_USER, columns, values);
+            isNewUser = DataBase.CreateNewRow(TABLE_USER, columns, values);
 
             //User contributed a new top to the database!
-            if (id > 0)
+            if (isNewUser.NewItemAdded)
             {
-                userContributedToDataBase = true;
-                EmailDict.Add(id, email);
-                CurrentUser = new User(id, firstName, lastName, email, p);
+                EmailDict.Add(isNewUser.ID, email);
+                CurrentUser = new User(isNewUser.ID, firstName, lastName, email, p);
                 UpdateUserProfile(CurrentUser);
             }
 
-            return userContributedToDataBase;
+            return isNewUser;
         }
 
         /// <summary>

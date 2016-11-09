@@ -76,14 +76,21 @@ namespace FitMe.Helper
             MySqlCommand cmd = GetMySqlCommand(command);
             Dictionary<int, string> dict = new Dictionary<int, string>();
             Open();
-            using (MySqlDataReader reader = cmd.ExecuteReader())
+            try
             {
-                while (reader.Read())
+                using (MySqlDataReader reader = cmd.ExecuteReader())
                 {
-                    String key = reader.GetString(COLUMN_ID);
-                    String value = reader.GetString(valueString);
-                    dict.Add(Convert.ToInt32(key), value);
+                    while (reader.Read())
+                    {
+                        String key = reader.GetString(COLUMN_ID);
+                        String value = reader.GetString(valueString);
+                        dict.Add(Convert.ToInt32(key), value);
+                    }
                 }
+            }
+            catch(MySqlException sqlEX)
+            {
+                Console.WriteLine("0x0004, Failed to ReadFromTable," + sqlEX.ToString());
             }
             Close();
             cmd.Dispose();
@@ -111,7 +118,7 @@ namespace FitMe.Helper
                     if (dictItem.Value.ToLower().Equals(value.ToLower()))
                     {
                         valueExists = true;
-                        newItemTracker.id = dictItem.Key;
+                        newItemTracker.ID = dictItem.Key;
                     }
                 }
 
@@ -120,11 +127,7 @@ namespace FitMe.Helper
                 {
                     string[] columnArray = { column };
                     string[] valueArray = { value };
-                    newItemTracker.id = CreateNewRow(table, columnArray, valueArray);
-                    if (newItemTracker.id > 0)
-                    {
-                        newItemTracker.AddedNewValue = true;
-                    }
+                    newItemTracker = CreateNewRow(table, columnArray, valueArray);
                 }
             }
 
@@ -138,9 +141,9 @@ namespace FitMe.Helper
         /// <param name="column"></param>
         /// <param name="value"></param>
         /// <returns>id of the new row</returns>
-        public static int CreateNewRow(string table, string[] columns, string[] values)
+        public static DataBaseResults CreateNewRow(string table, string[] columns, string[] values)
         {
-            int returnValue = 0;
+            DataBaseResults returnValue = new DataBaseResults();
 
             if (columns.Length == values.Length)
             {
@@ -175,7 +178,12 @@ namespace FitMe.Helper
                             throw new Exception("0x0000, When reading for the colum there was more than 1 id with the filtered value, " + dict.ToString());
                         }
 
-                        returnValue = dict.Keys.First();
+                        int id = dict.Keys.First();
+                        if ( id > 0)
+                        {
+                            returnValue.NewItemAdded = true;
+                            returnValue.ID = id;
+                        }
                     }
 
                     Close();
@@ -217,8 +225,29 @@ namespace FitMe.Helper
     /// </summary>
     public class DataBaseResults
     {
-        public int id = 0;
-        public Boolean AddedNewValue = false;
+        public int ID = 0;
+        public Boolean ItemIDExists = false;
+        private Boolean newItemAdded = false;
+        public Boolean NewItemAdded
+        {
+            get
+            {
+                return newItemAdded;
+            }
+            set
+            {
+                if (value)
+                {
+                    newItemAdded = value;
+                    ItemIDExists = true;
+                }
+                else
+                {
+                    throw new Exception("Don't set NewItemAdded to false!");
+                }
+            }
+        }
+
         public DataBaseResults()
         {
 
