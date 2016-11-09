@@ -21,6 +21,7 @@ namespace FitMe.Controller
         const string TABLE_TOP_COLUMN_NECK = "Neck";
         const string TABLE_TOP_COLUMN_SLEEVE = "Sleeve";
         const string TABLE_TOP_COLUMN_CHEST = "Chest";
+        const string TABLE_TOP_COLUMN_CREATEDBYUSER = "CreatedByUser";
 
         const string TABLE_DESIGNER = "designer";
         const string TABLE_CHEST = "size_chest";
@@ -81,9 +82,9 @@ namespace FitMe.Controller
         /// <param name="neck"></param>
         /// <param name="sleeve"></param>
         /// <param name="chest"></param>
-        internal Boolean Create(string designer, string neck, string sleeve, string chest)
+        internal DataBaseResults Create(string designer, string neck, string sleeve, string chest, int UserID)
         {
-            Boolean userContributedToDataBase = false;
+            DataBaseResults userContributedToDataBase = new DataBaseResults();
 
             DataBaseResults designerID = DataBase.TryUpdatingTables(DesignerDict, TABLE_DESIGNER, COLUMN_NAME, designer);
             DataBaseResults neckID = DataBase.TryUpdatingTables(NeckDict, TABLE_NECK, COLUMN_SIZE, neck);
@@ -96,13 +97,13 @@ namespace FitMe.Controller
                 sleeveID.AddedNewValue ||
                 chestID.AddedNewValue)
             {
-                userContributedToDataBase = true;
+                userContributedToDataBase.AddedNewValue = true;
             }
 
             if (!DoesTopExistInDB(designerID.id, neckID.id, sleeveID.id, chestID.id))
             {
-                string[] columns = { TABLE_TOP_COLUMN_DESIGNER, TABLE_TOP_COLUMN_NECK, TABLE_TOP_COLUMN_SLEEVE, TABLE_TOP_COLUMN_CHEST };
-                string[] values = { designerID.id.ToString(), neckID.id.ToString(), sleeveID.id.ToString(), chestID.id.ToString() };
+                string[] columns = { TABLE_TOP_COLUMN_DESIGNER, TABLE_TOP_COLUMN_NECK, TABLE_TOP_COLUMN_SLEEVE, TABLE_TOP_COLUMN_CHEST, TABLE_TOP_COLUMN_CREATEDBYUSER };
+                string[] values = { designerID.id.ToString(), neckID.id.ToString(), sleeveID.id.ToString(), chestID.id.ToString(), UserID.ToString() };
                 try
                 {
                     int id = DataBase.CreateNewRow(TABLE_TOP, columns, values);
@@ -110,7 +111,8 @@ namespace FitMe.Controller
                     //User contributed a new top to the database!
                     if (id > 0)
                     {
-                        userContributedToDataBase = true;
+                        userContributedToDataBase.AddedNewValue = true;
+                        userContributedToDataBase.id = id;
                     }
                 }
                 catch

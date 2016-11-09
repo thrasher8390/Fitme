@@ -38,7 +38,7 @@ namespace FitMe
             user.FirstName = tbFirstName.Text;
             user.LastName = tbLastName.Text;
             
-            lblUpdateSuccessfull.Visible = userModel.UpdateUserProfile(user);           
+            lblUpdateSuccessfull.Visible = UserModel.UpdateUserProfile(user);           
         }
     }
 }

@@ -5,16 +5,21 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using FitMe.Helper;
+using FitMe.Models.UserModel.Controller;
+using FitMe.Models.ClothesModel;
 
 namespace FitMe
 {
     public partial class AddItem : System.Web.UI.Page
     {
-        static TopModel Top;
+        private static TopModel Top;
+        private User CurrentUser;
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            if(Session["CurrentUser"] == null)
+            CurrentUser = (User)Session["CurrentUser"];
+            if (CurrentUser == null)
             {
                 Server.Transfer("Default.aspx", true);
             }
@@ -65,10 +70,15 @@ namespace FitMe
             if(!illegalArgument)
             {
                 //Make sure the inputs are correct
-               
-                if (Top.Create(tbDesignerName.Text, tbNeckSize.Text, tbSleeveSize.Text, tbChestSize.Text))
+                DataBaseResults result = Top.Create(tbDesignerName.Text, tbNeckSize.Text, tbSleeveSize.Text, tbChestSize.Text, CurrentUser.ID);
+                if (result.AddedNewValue)
                 {
                     lblSuccessfullyAddedItem.Visible = true;
+
+                    //TODO the next to lines should be placed in stage 4 of clothes model rating
+                    UserRatedClothes item = new UserRatedClothes(Clothes.Type.Top, result.id, 0);
+                    CurrentUser.Closet.Add(item);
+                    UserModel.UpdateUserProfile(CurrentUser);
                 }
             }
         }

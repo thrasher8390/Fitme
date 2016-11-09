@@ -119,8 +119,8 @@
     <footer class="footer">
         <div class="container" style="text-align: center">
             <!-- hitwebcounter Code START -->
-            <a href="http://www.hitwebcounter.com" target="_blank" style="align-content: center; align-items: center; text-align: center;">
-                <img src="http://hitwebcounter.com/counter/counter.php?page=6528131&style=0003&nbdigits=5&type=ip&initCount=0" title="my widget for counting" alt="my widget for counting" border="0" style="align-self: center">
+            <a style="align-content: center; align-items: center; text-align: center;">
+                <img src="http://hitwebcounter.com/counter/counter.php?page=6528131&style=0003&nbdigits=5&type=ip&initCount=0" title="Site Visitors" alt="Thanks for using FitMe!" border="0" style="align-self: center">
             </a>
         </div>
     </footer>

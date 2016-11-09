@@ -98,10 +98,13 @@ namespace FitMe.Models.UserModel.Controller
                             if (CurrentUser == null)
                             {
                                 CurrentUser = new User();
-                                CurrentUser.ID = userID;
-                                CurrentUser.EmailAddress = userEmail;
-                                CurrentUser.Password = userPassHash;
+                                CurrentUser.ID = userID;                                
                             }
+
+                            //email and pass are duplicate info that we don't want to store in User profile part of the DB
+                            //We'll load them here so that it is easier to manipulate users information
+                            CurrentUser.EmailAddress = userEmail;
+                            CurrentUser.Password = userPassHash;
                         }
                         else
                         {
@@ -173,7 +176,7 @@ namespace FitMe.Models.UserModel.Controller
         /// Update the database with the new user profile
         /// </summary>
         /// <param name="user"></param>
-        public Boolean UpdateUserProfile(User user)
+        public static Boolean UpdateUserProfile(User user)
         {
             string userString = JsonConvert.SerializeObject(user);
             return DataBase.UpdateColumn(TABLE_USER, user.ID,TABLE_USER_COLUMN_USERPROFILE, userString);
