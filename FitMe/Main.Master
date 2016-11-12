@@ -51,21 +51,12 @@
                     </div>
                     <div class="navbar-collapse collapse">
                         <ul class="nav navbar-nav">
-                            <li><a href="Default.aspx">Home</a></li>
                             <li><a href="About.aspx">About</a></li>
                             <li><a href="Contact.aspx">Contact Us</a></li>
                             <ul class="dropdown-menu" role="menu">
                             </ul>
-                            <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Extras <span class="caret"></span></a>
-                                <ul class="dropdown-menu" role="menu">
-                                    <li><a href="AccountSignIn.aspx">Sign In</a></li>
-                                    <li><a href="AccountSignUp.aspx">Sign Up</a></li>
-                                </ul>
-                            </li>
                         </ul>
                         <ul class="nav navbar-nav navbar-right">
-                            <li><a href="Default.aspx">Home</a></li>
                             <li><a href="AccountSignIn.aspx">Sign In</a></li>
                         </ul>
                     </div>
@@ -86,23 +77,21 @@
                     </div>
                     <div class="navbar-collapse collapse">
                         <ul class="nav navbar-nav">
-                            <li><a href="Default.aspx">Home</a></li>
                             <li><a href="About.aspx">About</a></li>
                             <li><a href="Contact.aspx">Contact Us</a></li>
-                            <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Extras <span class="caret"></span></a>
-                                <ul class="dropdown-menu" role="menu">
-                                    <li><a href="AddItem.aspx">Rate Item</a></li>
-                                    <li class="divider"></li>
-                                    <li class="dropdown-header">Other</li>
-                                    <li><a href="AccountLogout.aspx">Log Out</a></li>
-                                </ul>
-                            </li>
+                             <li><a href="AddItem.aspx">Rate Item</a></li>
                         </ul>
                         <ul class="nav navbar-nav navbar-right">
-                            <li><a href="Default.aspx">Home</a></li>
-                            <li><a href="AddItem.aspx">Rate Item</a></li>
-                            <li><a href="UserProfile.aspx">My Account</a></li>
+                            <ul class="dropdown-menu" role="menu">
+                            </ul>
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">My Account <span class="caret"></span></a>
+                                <ul class="dropdown-menu" role="menu">
+                                    <li><a href="UserCloset.aspx">My Closet</a></li>
+                                    <li><a href="UserProfile.aspx">My Profile</a></li>
+                                    <li><a href="AccountLogout.aspx">Sign Out</a></li>
+                                </ul>
+                            </li>
                         </ul>
                     </div>
                     <!--/.nav-collapse -->
@@ -119,8 +108,8 @@
     <footer class="footer">
         <div class="container" style="text-align: center">
             <!-- hitwebcounter Code START -->
-            <a href="http://www.hitwebcounter.com" target="_blank" style="align-content: center; align-items: center; text-align: center;">
-                <img src="http://hitwebcounter.com/counter/counter.php?page=6528131&style=0003&nbdigits=5&type=ip&initCount=0" title="my widget for counting" alt="my widget for counting" border="0" style="align-self: center">
+            <a style="align-content: center; align-items: center; text-align: center;">
+                <img src="http://hitwebcounter.com/counter/counter.php?page=6528131&style=0003&nbdigits=5&type=ip&initCount=0" title="Site Visitors" alt="Thanks for using FitMe!" border="0" style="align-self: center">
             </a>
         </div>
     </footer>

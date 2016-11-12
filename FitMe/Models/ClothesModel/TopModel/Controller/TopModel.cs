@@ -7,7 +7,7 @@ using System.Net.Http;
 using MySql.Data.MySqlClient;
 using FitMe.Helper;
 
-namespace FitMe.Controller
+namespace FitMe.Models.ClothesModel
 {
     public class TopModel
     {
@@ -21,6 +21,8 @@ namespace FitMe.Controller
         const string TABLE_TOP_COLUMN_NECK = "Neck";
         const string TABLE_TOP_COLUMN_SLEEVE = "Sleeve";
         const string TABLE_TOP_COLUMN_CHEST = "Chest";
+        const string TABLE_TOP_COLUMN_CREATEDBYUSER = "CreatedByUser";
+        const string TABLE_TOP_COLUMN_VALIDATED = "Validated";
 
         const string TABLE_DESIGNER = "designer";
         const string TABLE_CHEST = "size_chest";
@@ -65,8 +67,9 @@ namespace FitMe.Controller
                     }
 
                     int sleeveID = Convert.ToInt32(topReader.GetString(TABLE_TOP_COLUMN_SLEEVE));
+                    int validatedCount = Convert.ToInt32(topReader.GetString(TABLE_TOP_COLUMN_VALIDATED));
 
-                    Tops.Add(new Top(topID, designerID, neckID, chestID, sleeveID));
+                    Tops.Add(new Top(topID, designerID, neckID, chestID, sleeveID, validatedCount));
                 }
 
             }
@@ -81,9 +84,9 @@ namespace FitMe.Controller
         /// <param name="neck"></param>
         /// <param name="sleeve"></param>
         /// <param name="chest"></param>
-        internal Boolean Create(string designer, string neck, string sleeve, string chest)
+        internal DataBaseResults Create(string designer, string neck, string sleeve, string chest, int UserID)
         {
-            Boolean userContributedToDataBase = false;
+            DataBaseResults userContributedToDataBase = new DataBaseResults();
 
             DataBaseResults designerID = DataBase.TryUpdatingTables(DesignerDict, TABLE_DESIGNER, COLUMN_NAME, designer);
             DataBaseResults neckID = DataBase.TryUpdatingTables(NeckDict, TABLE_NECK, COLUMN_SIZE, neck);
@@ -91,35 +94,61 @@ namespace FitMe.Controller
             DataBaseResults chestID = DataBase.TryUpdatingTables(ChestDict, TABLE_CHEST, COLUMN_SIZE, chest);
 
             //Did the user contribute to the dataBase?
-            if (designerID.AddedNewValue ||
-                neckID.AddedNewValue ||
-                sleeveID.AddedNewValue ||
-                chestID.AddedNewValue)
+            if (designerID.NewItemAdded ||
+                neckID.NewItemAdded ||
+                sleeveID.NewItemAdded ||
+                chestID.NewItemAdded)
             {
-                userContributedToDataBase = true;
+                userContributedToDataBase.NewItemAdded = true;
             }
 
-            if (!DoesTopExistInDB(designerID.id, neckID.id, sleeveID.id, chestID.id))
+            userContributedToDataBase = DoesTopExistInDB(designerID.ID, neckID.ID, sleeveID.ID, chestID.ID);
+
+            //If item doesn't exist lets try to add it
+            if (!userContributedToDataBase.ItemIDExists)
             {
-                string[] columns = { TABLE_TOP_COLUMN_DESIGNER, TABLE_TOP_COLUMN_NECK, TABLE_TOP_COLUMN_SLEEVE, TABLE_TOP_COLUMN_CHEST };
-                string[] values = { designerID.id.ToString(), neckID.id.ToString(), sleeveID.id.ToString(), chestID.id.ToString() };
+                string[] columns = { TABLE_TOP_COLUMN_DESIGNER, TABLE_TOP_COLUMN_NECK, TABLE_TOP_COLUMN_SLEEVE, TABLE_TOP_COLUMN_CHEST, TABLE_TOP_COLUMN_CREATEDBYUSER, TABLE_TOP_COLUMN_VALIDATED };
+                string[] values = { designerID.ID.ToString(), neckID.ID.ToString(), sleeveID.ID.ToString(), chestID.ID.ToString(), UserID.ToString(), "1" };
                 try
                 {
-                    int id = DataBase.CreateNewRow(TABLE_TOP, columns, values);
-
-                    //User contributed a new top to the database!
-                    if (id > 0)
-                    {
-                        userContributedToDataBase = true;
-                    }
+                    userContributedToDataBase = DataBase.CreateNewRow(TABLE_TOP, columns, values);
                 }
                 catch
                 {
                     //If create New Row throws its exception it means that this are now more than 1 tops by this designer
                 }
             }
+            else
+            {
+                //update Validation
+                DataBase.UpdateColumn(TABLE_TOP, userContributedToDataBase.ID, TABLE_TOP_COLUMN_VALIDATED, (GetTopWithID(userContributedToDataBase.ID).ValidatedCount + 1).ToString()); 
+            }
 
             return userContributedToDataBase;
+        }
+
+        /// <summary>
+        /// We'll try to remove the top if it hasn't been validated yet
+        /// </summary>
+        /// <param name="itemID"></param>
+        internal void TryRemovingTop(int itemID)
+        {
+            try
+            {
+                //Either update validated count or remove the row completely
+                if (GetTopWithID(itemID).ValidatedCount < 2)
+                {
+                    DataBase.RemoveRow(TABLE_TOP, itemID.ToString());
+                }
+                else
+                {
+                    DataBase.UpdateColumn(TABLE_TOP, itemID, TABLE_TOP_COLUMN_VALIDATED, (GetTopWithID(itemID).ValidatedCount - 1).ToString());
+                }
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine("0x0005,Try Removing Top Failed," + ex.ToString());
+            }
         }
 
         /// <summary>
@@ -130,19 +159,40 @@ namespace FitMe.Controller
         /// <param name="sleeve"></param>
         /// <param name="chest"></param>
         /// <returns>top already exists</returns>
-        private Boolean DoesTopExistInDB(int designer, int neck, int sleeve, int chest)
+        private DataBaseResults DoesTopExistInDB(int designer, int neck, int sleeve, int chest)
         {
-            Boolean doesTopExist = false;
+            DataBaseResults doesTopExist = new DataBaseResults();
             foreach (Top top in Tops)
             {
                 if (top.IsMatch(designer, neck, sleeve, chest))
                 {
-                    doesTopExist = true;
+                    doesTopExist.ItemIDExists = true;
+                    doesTopExist.ID = top.ID;
                     break;
                 }
             }
 
             return doesTopExist;
+        }
+
+        /// <summary>
+        /// Returns the top with the specified ID
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        private Top GetTopWithID(int id)
+        {
+            Top retrunTop = null;
+            foreach (Top top in Tops)
+            {
+                if (top.ID == id)
+                {
+                    retrunTop = top;
+                    break;
+                }
+            }
+
+            return retrunTop;
         }
     }
 }

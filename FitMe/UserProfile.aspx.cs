@@ -1,4 +1,5 @@
-﻿using FitMe.Models.UserModel.Controller;
+﻿using FitMe.Helper;
+using FitMe.Models.UserModel.Controller;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,12 +12,20 @@ namespace FitMe
     public partial class UserProfile : System.Web.UI.Page
     {
         UserModel userModel = new UserModel();
+        User user;
 
         protected void Page_Load(object sender, EventArgs e)
         {
+            user = (User)Session["CurrentUser"];
+            if(!PagePermissions.IsAllowedOnPage(this, user))
+            {
+                Server.Transfer(PagePermissions.TransferToPage(this, user), true);
+            }
+
             if (!IsPostBack)
             {
-                User user = (User)Session["CurrentUser"];
+                lblUpdateSuccessfull.Visible = false;
+                
                 try
                 {
                     tbFirstName.Text = user.FirstName;
@@ -32,10 +41,10 @@ namespace FitMe
 
         protected void btnUpdateProfile_Click(Object sender, EventArgs e)
         {
-            User user = (User)Session["CurrentUser"];
             user.FirstName = tbFirstName.Text;
             user.LastName = tbLastName.Text;
-            userModel.UpdateUserProfile(user);
+            
+            lblUpdateSuccessfull.Visible = UserModel.UpdateUserProfile(user);           
         }
     }
 }

@@ -7,15 +7,18 @@ using System.Web.Configuration;
 
 namespace FitMe.Helper
 {
-    public static class DataBase
+    internal static class DataBase
     {
         private static MySqlConnection FitMeDataBaseConnection = new MySqlConnection(WebConfigurationManager.ConnectionStrings["fitmedatabase1"].ConnectionString);
 
-        public const string COLUMN_ID = "id";
+        internal const string COLUMN_ID = "id";
 
         private static Boolean isOpen = false;
         private static object lockIsOpen = new object();
 
+        /// <summary>
+        /// thread safe open DB connection
+        /// </summary>
         internal static void Open()
         {
             lock (lockIsOpen)
@@ -23,11 +26,21 @@ namespace FitMe.Helper
                 if (!isOpen)
                 {
                     isOpen = true;
-                    FitMeDataBaseConnection.Open();
+                    try
+                    {
+                        FitMeDataBaseConnection.Open();
+                    }
+                    catch(Exception ex)
+                    {
+                        Console.WriteLine("0x0003,Database is not responding");
+                    }
                 }
             }
         }
 
+        /// <summary>
+        /// thread safe close DB connection
+        /// </summary>
         internal static void Close()
         {
             lock (lockIsOpen)
@@ -40,6 +53,11 @@ namespace FitMe.Helper
             }
         }
 
+        /// <summary>
+        /// grab a command with the database connection preloaded
+        /// </summary>
+        /// <param name="command"></param>
+        /// <returns></returns>
         internal static MySqlCommand GetMySqlCommand(string command)
         {
             return new MySqlCommand(command, FitMeDataBaseConnection);
@@ -51,7 +69,7 @@ namespace FitMe.Helper
         /// <param name="dict"></param>
         /// <param name="table"></param>
         /// <param name="valueString"></param>
-        public static Dictionary<int, string> ReadFromTable(string table, string valueString)
+        internal static Dictionary<int, string> ReadFromTable(string table, string valueString)
         {
             string command = "SELECT * FROM " + table;
             return ReadFromTable(table, valueString, command);
@@ -64,19 +82,26 @@ namespace FitMe.Helper
         /// <param name="table"></param>
         /// <param name="valueString"></param>
         /// <param name="command"></param>
-        public static Dictionary<int, string> ReadFromTable(string table, string valueString, string command)
+        internal static Dictionary<int, string> ReadFromTable(string table, string valueString, string command)
         {
             MySqlCommand cmd = GetMySqlCommand(command);
             Dictionary<int, string> dict = new Dictionary<int, string>();
             Open();
-            using (MySqlDataReader reader = cmd.ExecuteReader())
+            try
             {
-                while (reader.Read())
+                using (MySqlDataReader reader = cmd.ExecuteReader())
                 {
-                    String key = reader.GetString(COLUMN_ID);
-                    String value = reader.GetString(valueString);
-                    dict.Add(Convert.ToInt32(key), value);
+                    while (reader.Read())
+                    {
+                        String key = reader.GetString(COLUMN_ID);
+                        String value = reader.GetString(valueString);
+                        dict.Add(Convert.ToInt32(key), value);
+                    }
                 }
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine("0x0004, Failed to ReadFromTable," + ex.ToString());
             }
             Close();
             cmd.Dispose();
@@ -90,7 +115,7 @@ namespace FitMe.Helper
         /// /// <param name="dict"></param
         /// <param name="designername"></param
         /// <returns>user contributed to the database!</returns>
-        public static DataBaseResults TryUpdatingTables(Dictionary<int, string> dict, string table, string column, string value)
+        internal static DataBaseResults TryUpdatingTables(Dictionary<int, string> dict, string table, string column, string value)
         {
             DataBaseResults newItemTracker = new DataBaseResults();
 
@@ -104,7 +129,7 @@ namespace FitMe.Helper
                     if (dictItem.Value.ToLower().Equals(value.ToLower()))
                     {
                         valueExists = true;
-                        newItemTracker.id = dictItem.Key;
+                        newItemTracker.ID = dictItem.Key;
                     }
                 }
 
@@ -113,11 +138,7 @@ namespace FitMe.Helper
                 {
                     string[] columnArray = { column };
                     string[] valueArray = { value };
-                    newItemTracker.id = CreateNewRow(table, columnArray, valueArray);
-                    if (newItemTracker.id > 0)
-                    {
-                        newItemTracker.AddedNewValue = true;
-                    }
+                    newItemTracker = CreateNewRow(table, columnArray, valueArray);
                 }
             }
 
@@ -131,9 +152,9 @@ namespace FitMe.Helper
         /// <param name="column"></param>
         /// <param name="value"></param>
         /// <returns>id of the new row</returns>
-        public static int CreateNewRow(string table, string[] columns, string[] values)
+        internal static DataBaseResults CreateNewRow(string table, string[] columns, string[] values)
         {
-            int returnValue = 0;
+            DataBaseResults returnValue = new DataBaseResults();
 
             if (columns.Length == values.Length)
             {
@@ -168,7 +189,12 @@ namespace FitMe.Helper
                             throw new Exception("0x0000, When reading for the colum there was more than 1 id with the filtered value, " + dict.ToString());
                         }
 
-                        returnValue = dict.Keys.First();
+                        int id = dict.Keys.First();
+                        if ( id > 0)
+                        {
+                            returnValue.NewItemAdded = true;
+                            returnValue.ID = id;
+                        }
                     }
 
                     Close();
@@ -176,6 +202,30 @@ namespace FitMe.Helper
             }
 
             return returnValue;
+        }
+
+        /// <summary>
+        /// Remove a specific row ID from a table
+        /// </summary>
+        /// <param name="tableWithRow"></param>
+        /// <param name="rowID"></param>
+        /// <returns></returns>
+        internal static Boolean RemoveRow(string tableWithRowID, string rowID)
+        {
+            Boolean columnUpdated = false;
+
+            string command = "DELETE FROM " + tableWithRowID + " WHERE " + COLUMN_ID + "=\'" + rowID + "\'";
+            using (MySqlCommand delete = GetMySqlCommand(command))
+            {
+                Open();
+
+                if (delete.ExecuteNonQuery() > 0)
+                {
+                    columnUpdated = true;
+                }
+            }
+
+            return columnUpdated;
         }
 
         /// <summary>
@@ -190,7 +240,7 @@ namespace FitMe.Helper
         {
             Boolean columnUpdated = false;
 
-            string command = "UPDATE " + tableWithColumn + " SET " + columnToUpdate + "=\'" + tableRowID + "\' WHERE id=\'" + newValue + "\'";
+            string command = "UPDATE " + tableWithColumn + " SET " + columnToUpdate + "=\'" + newValue + "\' WHERE id=\'" + tableRowID + "\'";
             using (MySqlCommand insert = GetMySqlCommand(command))
             {
                 Open();
@@ -208,11 +258,32 @@ namespace FitMe.Helper
     /// <summary>
     /// This is used for when we are adding to a DB we can return if the row was created successfully and the unique id of the new row
     /// </summary>
-    public class DataBaseResults
+    internal class DataBaseResults
     {
-        public int id = 0;
-        public Boolean AddedNewValue = false;
-        public DataBaseResults()
+        internal int ID = 0;
+        internal Boolean ItemIDExists = false;
+        private Boolean newItemAdded = false;
+        internal Boolean NewItemAdded
+        {
+            get
+            {
+                return newItemAdded;
+            }
+            set
+            {
+                if (value)
+                {
+                    newItemAdded = value;
+                    ItemIDExists = true;
+                }
+                else
+                {
+                    throw new Exception("Don't set NewItemAdded to false!");
+                }
+            }
+        }
+
+        internal DataBaseResults()
         {
 
         }

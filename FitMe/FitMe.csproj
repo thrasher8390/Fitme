@@ -178,6 +178,7 @@
   <ItemGroup>
     <Content Include="AccountLogout.aspx" />
     <Content Include="About.aspx" />
+    <Content Include="UserCloset.aspx" />
     <Content Include="UserProfile.aspx" />
     <Content Include="AccountSignUp.aspx" />
     <Content Include="AccountSignIn.aspx" />
@@ -205,6 +206,7 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
+    <Content Include="Readme.md" />
     <None Include="scripts\jquery-1.9.1.intellisense.js" />
     <Content Include="scripts\bootstrap.js" />
     <Content Include="scripts\bootstrap.min.js" />
@@ -232,6 +234,16 @@
     </Compile>
     <Compile Include="AccountLogout.aspx.designer.cs">
       <DependentUpon>AccountLogout.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Helper\PagePermissions.cs" />
+    <Compile Include="Models\ClothesModel\Clothes.cs" />
+    <Compile Include="Models\UserModel\Controller\UserRatedClothes.cs" />
+    <Compile Include="UserCloset.aspx.cs">
+      <DependentUpon>UserCloset.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="UserCloset.aspx.designer.cs">
+      <DependentUpon>UserCloset.aspx</DependentUpon>
     </Compile>
     <Compile Include="UserProfile.aspx.cs">
       <DependentUpon>UserProfile.aspx</DependentUpon>
