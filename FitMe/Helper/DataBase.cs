@@ -7,15 +7,18 @@ using System.Web.Configuration;
 
 namespace FitMe.Helper
 {
-    public static class DataBase
+    internal static class DataBase
     {
         private static MySqlConnection FitMeDataBaseConnection = new MySqlConnection(WebConfigurationManager.ConnectionStrings["fitmedatabase1"].ConnectionString);
 
-        public const string COLUMN_ID = "id";
+        internal const string COLUMN_ID = "id";
 
         private static Boolean isOpen = false;
         private static object lockIsOpen = new object();
 
+        /// <summary>
+        /// thread safe open DB connection
+        /// </summary>
         internal static void Open()
         {
             lock (lockIsOpen)
@@ -35,6 +38,9 @@ namespace FitMe.Helper
             }
         }
 
+        /// <summary>
+        /// thread safe close DB connection
+        /// </summary>
         internal static void Close()
         {
             lock (lockIsOpen)
@@ -47,6 +53,11 @@ namespace FitMe.Helper
             }
         }
 
+        /// <summary>
+        /// grab a command with the database connection preloaded
+        /// </summary>
+        /// <param name="command"></param>
+        /// <returns></returns>
         internal static MySqlCommand GetMySqlCommand(string command)
         {
             return new MySqlCommand(command, FitMeDataBaseConnection);
@@ -58,7 +69,7 @@ namespace FitMe.Helper
         /// <param name="dict"></param>
         /// <param name="table"></param>
         /// <param name="valueString"></param>
-        public static Dictionary<int, string> ReadFromTable(string table, string valueString)
+        internal static Dictionary<int, string> ReadFromTable(string table, string valueString)
         {
             string command = "SELECT * FROM " + table;
             return ReadFromTable(table, valueString, command);
@@ -71,7 +82,7 @@ namespace FitMe.Helper
         /// <param name="table"></param>
         /// <param name="valueString"></param>
         /// <param name="command"></param>
-        public static Dictionary<int, string> ReadFromTable(string table, string valueString, string command)
+        internal static Dictionary<int, string> ReadFromTable(string table, string valueString, string command)
         {
             MySqlCommand cmd = GetMySqlCommand(command);
             Dictionary<int, string> dict = new Dictionary<int, string>();
@@ -88,9 +99,9 @@ namespace FitMe.Helper
                     }
                 }
             }
-            catch(MySqlException sqlEX)
+            catch(Exception ex)
             {
-                Console.WriteLine("0x0004, Failed to ReadFromTable," + sqlEX.ToString());
+                Console.WriteLine("0x0004, Failed to ReadFromTable," + ex.ToString());
             }
             Close();
             cmd.Dispose();
@@ -104,7 +115,7 @@ namespace FitMe.Helper
         /// /// <param name="dict"></param
         /// <param name="designername"></param
         /// <returns>user contributed to the database!</returns>
-        public static DataBaseResults TryUpdatingTables(Dictionary<int, string> dict, string table, string column, string value)
+        internal static DataBaseResults TryUpdatingTables(Dictionary<int, string> dict, string table, string column, string value)
         {
             DataBaseResults newItemTracker = new DataBaseResults();
 
@@ -141,7 +152,7 @@ namespace FitMe.Helper
         /// <param name="column"></param>
         /// <param name="value"></param>
         /// <returns>id of the new row</returns>
-        public static DataBaseResults CreateNewRow(string table, string[] columns, string[] values)
+        internal static DataBaseResults CreateNewRow(string table, string[] columns, string[] values)
         {
             DataBaseResults returnValue = new DataBaseResults();
 
@@ -194,6 +205,30 @@ namespace FitMe.Helper
         }
 
         /// <summary>
+        /// Remove a specific row ID from a table
+        /// </summary>
+        /// <param name="tableWithRow"></param>
+        /// <param name="rowID"></param>
+        /// <returns></returns>
+        internal static Boolean RemoveRow(string tableWithRowID, string rowID)
+        {
+            Boolean columnUpdated = false;
+
+            string command = "DELETE FROM " + tableWithRowID + " WHERE " + COLUMN_ID + "=\'" + rowID + "\'";
+            using (MySqlCommand delete = GetMySqlCommand(command))
+            {
+                Open();
+
+                if (delete.ExecuteNonQuery() > 0)
+                {
+                    columnUpdated = true;
+                }
+            }
+
+            return columnUpdated;
+        }
+
+        /// <summary>
         /// Update a specific column of a row in a table
         /// </summary>
         /// <param name="tableWithColumn"></param>
@@ -223,12 +258,12 @@ namespace FitMe.Helper
     /// <summary>
     /// This is used for when we are adding to a DB we can return if the row was created successfully and the unique id of the new row
     /// </summary>
-    public class DataBaseResults
+    internal class DataBaseResults
     {
-        public int ID = 0;
-        public Boolean ItemIDExists = false;
+        internal int ID = 0;
+        internal Boolean ItemIDExists = false;
         private Boolean newItemAdded = false;
-        public Boolean NewItemAdded
+        internal Boolean NewItemAdded
         {
             get
             {
@@ -248,7 +283,7 @@ namespace FitMe.Helper
             }
         }
 
-        public DataBaseResults()
+        internal DataBaseResults()
         {
 
         }

@@ -6,7 +6,7 @@
 			<div class="col-sm-6 col-md-4 col-md-offset-4">
 				<div class="panel panel-default">
 					<div class="panel-heading">
-						<strong> Sign in to continue</strong>
+						<strong>Welcome back to FitMe</strong>
 					</div>
 					<div class="panel-body">
 						<form role="form" action="#" method="POST" runat="server">

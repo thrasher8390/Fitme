@@ -62,6 +62,17 @@ namespace FitMe.Models.UserModel.Controller
         }
 
         /// <summary>
+        /// Remove an item form the users closet and update the users profile
+        /// </summary>
+        /// <param name="user"></param>
+        /// <param name="rowIndex"></param>
+        internal static Boolean RemoveClosetItem(User user, int rowIndex)
+        {
+            user.Closet.RemoveAt(rowIndex);
+            return UpdateUserProfile(user);
+        }
+
+        /// <summary>
         /// Sign into the account if the email and password are correct
         /// </summary>
         /// <param name="email"></param>

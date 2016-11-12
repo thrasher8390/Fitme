@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace FitMe.Controller
+namespace FitMe.Models.ClothesModel
 {
     public class Top
     {
@@ -12,14 +12,19 @@ namespace FitMe.Controller
         public int NeckSize;
         public int ChestSize;
         public int SleeveSize;
+        /// <summary>
+        /// This is how many users have added the shirt to their closet
+        /// </summary>
+        public int ValidatedCount;
         
-        public Top (int id, int designerName, int neckSize, int chestSize, int sleeveSize)
+        public Top (int id, int designerName, int neckSize, int chestSize, int sleeveSize, int validatedCount)
         {
-            this.ID = id;
-            this.DesignerName = designerName;
-            this.NeckSize = neckSize;
-            this.ChestSize = chestSize;
-            this.SleeveSize = sleeveSize;
+            ID = id;
+            DesignerName = designerName;
+            NeckSize = neckSize;
+            ChestSize = chestSize;
+            SleeveSize = sleeveSize;
+            ValidatedCount = validatedCount;
         }
 
         public Boolean IsMatch(int designer, int neck, int sleeve, int chest)

@@ -1,5 +1,4 @@
-﻿using FitMe.Controller;
-using FitMe.Models.ClothesModel;
+﻿using FitMe.Models.ClothesModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
