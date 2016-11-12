@@ -73,6 +73,27 @@ namespace FitMe.Models.UserModel.Controller
         }
 
         /// <summary>
+        /// if the user already has the item then we'll update it
+        /// </summary>
+        /// <param name="user"></param>
+        /// <param name="item"></param>
+        /// <returns>True if this was a newley added item; false if user already owns the item</returns>
+        internal static Boolean TryAddingClosetItem(User user, UserRatedClothes item)
+        {
+            Boolean itemAdded = false;
+            UserRatedClothes existingItem = user.GetClosetItemById(item.ID);
+
+            if(existingItem == null)
+            { 
+                user.Closet.Add(item);
+                UpdateUserProfile(user);
+                itemAdded = true;
+            }
+
+            return itemAdded;
+        }
+
+        /// <summary>
         /// Sign into the account if the email and password are correct
         /// </summary>
         /// <param name="email"></param>

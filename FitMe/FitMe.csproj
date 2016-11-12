@@ -176,9 +176,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="AccountLogout.aspx" />
+    <Content Include="AccountSignOut.aspx" />
     <Content Include="About.aspx" />
+    <Content Include="Content\EmptyStar.png" />
+    <Content Include="Content\FullStar.png" />
     <Content Include="UserCloset.aspx" />
+    <Content Include="RateItem.aspx" />
     <Content Include="UserProfile.aspx" />
     <Content Include="AccountSignUp.aspx" />
     <Content Include="AccountSignIn.aspx" />
@@ -228,13 +231,14 @@
     <Content Include="Users.aspx" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AccountLogout.aspx.cs">
-      <DependentUpon>AccountLogout.aspx</DependentUpon>
+    <Compile Include="AccountSignOut.aspx.cs">
+      <DependentUpon>AccountSignOut.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="AccountLogout.aspx.designer.cs">
-      <DependentUpon>AccountLogout.aspx</DependentUpon>
+    <Compile Include="AccountSignOut.aspx.designer.cs">
+      <DependentUpon>AccountSignOut.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Helper\Constants.cs" />
     <Compile Include="Helper\PagePermissions.cs" />
     <Compile Include="Models\ClothesModel\Clothes.cs" />
     <Compile Include="Models\UserModel\Controller\UserRatedClothes.cs" />
@@ -244,6 +248,13 @@
     </Compile>
     <Compile Include="UserCloset.aspx.designer.cs">
       <DependentUpon>UserCloset.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="RateItem.aspx.cs">
+      <DependentUpon>RateItem.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="RateItem.aspx.designer.cs">
+      <DependentUpon>RateItem.aspx</DependentUpon>
     </Compile>
     <Compile Include="UserProfile.aspx.cs">
       <DependentUpon>UserProfile.aspx</DependentUpon>

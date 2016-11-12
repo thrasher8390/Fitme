@@ -45,10 +45,17 @@ namespace FitMe.Helper
         {
             lock (lockIsOpen)
             {
-                if (isOpen)
+                try
                 {
-                    isOpen = false;
-                    FitMeDataBaseConnection.Close();
+                    if (isOpen)
+                    {
+                        isOpen = false;
+                        FitMeDataBaseConnection.Close();
+                    }
+                }
+                catch(Exception ex)
+                {
+                    Console.WriteLine("0x0006,Unable to close the DB connection," + ex.ToString());
                 }
             }
         }

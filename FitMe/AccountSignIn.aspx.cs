@@ -1,10 +1,6 @@
-﻿using FitMe.Models.UserModel.Controller;
+﻿using FitMe.Helper;
+using FitMe.Models.UserModel.Controller;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.UI;
-using System.Web.UI.WebControls;
 
 namespace FitMe
 {
@@ -26,8 +22,8 @@ namespace FitMe
             user = new UserModel();
             if(user.SignInToAccount(userName, password))
             {
-                Session["CurrentUser"] = user.CurrentUser;
-                Server.Transfer("UserProfile.aspx",true);
+                Session[Constants.Session_CurrentUser] = user.CurrentUser;
+                Response.Redirect(Constants.Page_UserProfile);
             }
             else
             {

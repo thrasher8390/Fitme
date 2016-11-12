@@ -9,13 +9,13 @@ namespace FitMe.Models.UserModel.Controller
     public class UserRatedClothes
     {
         public Clothes.Type ItemType;
-        public int ItemID;
+        public int ID;
         public int Rating;
 
         public UserRatedClothes(Clothes.Type itemType, int itemID, int rating)
         {
             ItemType = itemType;
-            ItemID = itemID;
+            ID = itemID;
             Rating = rating; 
         }
     }

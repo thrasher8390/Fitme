@@ -10,6 +10,6 @@
 namespace FitMe {
     
     
-    public partial class AccountLogout {
+    public partial class AccountSignOut {
     }
 }
