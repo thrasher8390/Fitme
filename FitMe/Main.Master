@@ -37,12 +37,12 @@
     {
           white-space:nowrap;
           margin:1em;
-          height:30px;
+          height:51px;
     }
     .ratingStar .ratingItem {
         font-size: 0pt;
-        width: 29px;
-        height: 28px;
+        width: 50px;
+        height: 50px;
         margin: 0px;
         padding: 0px;
         display: block;
@@ -50,13 +50,13 @@
         cursor:pointer;
     }
     .ratingStar .emptyStar {  
-        background-image: url(Content/EmptyStar.png);
+        background-image: url("Content/EmptyStar.jpg");
     }
     .ratingStar .filledStar { 
-        background-image: url(Content/FullStar.png);
+        background-image: url("Content/FullStar.jpg");
     }
     .ratingStar .waitingStar { 
-        background-image: url(Content/FullStar.png); 
+        background-image: url("Content/WaitingStar.jpg"); 
     }
 </style>
 <body>

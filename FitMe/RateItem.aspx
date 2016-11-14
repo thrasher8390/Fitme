@@ -8,9 +8,9 @@
         <asp:ScriptManager ID="ScriptManager1" runat="server" EnablePageMethods="true" />
         <div class="jumbotron" runat="server">
 
-            <h1>Rate Newly Added Item / Update Existing Item</h1>
+            <h1>Rate Item</h1>
             <div>
-                <ajaxToolkit:Rating ID="rItemRating" runat="server" CurrentRating="1" MaxRating="5" CssClass="ratingStar" EmptyStarCssClass="emptyStar" FilledStarCssClass="filledStar" StarCssClass="ratingItem" WaitingStarCssClass="waitingStar" AutoPostBack="true" OnChanged="rItemRating_Changed"></ajaxToolkit:Rating>
+                <ajaxToolkit:Rating ID="rItemRating" runat="server" CurrentRating="1" MaxRating="5" CssClass="ratingStar" StarCssClass="ratingItem" FilledStarCssClass="filledStar" EmptyStarCssClass="emptyStar" WaitingStarCssClass="waitingStar"></ajaxToolkit:Rating>
             </div>
             <div>
                 <asp:Button runat="server" ID="btnRateItem" Text="Rate Item" OnClick="btnRateItem_Click" CssClass="btn btn-primary" />

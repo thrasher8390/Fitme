@@ -178,8 +178,11 @@
   <ItemGroup>
     <Content Include="AccountSignOut.aspx" />
     <Content Include="About.aspx" />
-    <Content Include="Content\EmptyStar.png" />
-    <Content Include="Content\FullStar.png" />
+    <Content Include="Content\EmptyStar.jpg" />
+    <Content Include="Content\FullStar.jpg" />
+    <Content Include="Content\WaitingStar.jpg" />
+    <Content Include="img\EmptyStar.png" />
+    <Content Include="img\FullStar.png" />
     <Content Include="UserCloset.aspx" />
     <Content Include="RateItem.aspx" />
     <Content Include="UserProfile.aspx" />

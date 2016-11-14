@@ -88,13 +88,14 @@ namespace FitMe
                         //newly added
                         Top.ValidatedClosetItem(item.ID);
                     }
+                    else
                     {
                         //user already owns the item
                         item = user.GetClosetItemById(item.ID);
                     }
 
                     Session[Constants.Session_CurrentUserRatedItem] = item;
-                    Response.Redirect(Constants.Page_RateItem, true);
+                    Response.Redirect(Constants.Page_RateItem);
                 }
             }
         }

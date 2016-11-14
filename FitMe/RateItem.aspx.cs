@@ -30,13 +30,7 @@ namespace FitMe
             //update user rated item
             userRateditem.Rating = rItemRating.CurrentRating;
             UserModel.UpdateUserProfile(user);
-            Response.Redirect(Constants.Page_UserCloset);
-            
-        }
-
-        protected void rItemRating_Changed(object sender, AjaxControlToolkit.RatingEventArgs e)
-        {
-
+            Response.Redirect(Constants.Page_UserCloset);  
         }
     }
 }
