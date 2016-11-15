@@ -23,6 +23,11 @@ namespace FitMe
             {
                 Response.Redirect(PagePermissions.TransferToPage(this, user));
             }
+
+            if (!IsPostBack)
+            {
+                rItemRating.CurrentRating = userRateditem.Rating;
+            }
         }
 
         protected void btnRateItem_Click(Object sender, EventArgs e)

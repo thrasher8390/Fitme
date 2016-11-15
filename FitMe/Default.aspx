@@ -3,10 +3,10 @@
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentSection" runat="server">
     <div class="jumbotron">
-        <h1>Welcome to FitMe :)</h1>
+        <h1>Welcome to <%=FitMe.Helper.Constants.SiteTitle %> :)</h1>
         <p>
-            Hello, and welcome to FitMe. My name is Derek Thrasher and I'm excited to help make shopping for clothes easier for all of us.
-            FitMe will learn your style and size and recommend clothes that will fit you just right!
+            Hello, and welcome to <%=FitMe.Helper.Constants.SiteTitle %>. My name is Derek Thrasher and I'm excited to help make shopping for clothes easier for all of us.
+            <%=FitMe.Helper.Constants.SiteTitle %> will learn your style and size and recommend clothes that will fit you just right!
         </p>
     </div>
 </asp:Content>

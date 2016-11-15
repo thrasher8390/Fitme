@@ -205,6 +205,7 @@
     <Content Include="Content\bootstrap-theme.min.css.map" />
     <Content Include="Content\bootstrap-theme.css.map" />
     <Content Include="Main.Master" />
+    <None Include="Properties\PublishProfiles\Google Cloud.pubxml" />
     <None Include="Properties\PublishProfiles\Thrasher Server.pubxml" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

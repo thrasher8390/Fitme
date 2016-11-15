@@ -31,7 +31,7 @@ namespace FitMe
             lblInvalidSleeveSize.Visible = false;
             lblInvalidChestSize.Visible = false;
 
-            lblSuccessfullyAddedItem.Visible = false;
+            lblTroubleAddingItem.Visible = false;
         }
 
         protected void btnAddItem_Click(object sender, EventArgs e)
@@ -72,10 +72,6 @@ namespace FitMe
             {
                 //Make sure the inputs are correct
                 DataBaseResults result = Top.Create(tbDesignerName.Text, tbNeckSize.Text, tbSleeveSize.Text, tbChestSize.Text, user.ID);
-                if (result.NewItemAdded)
-                {
-                    lblSuccessfullyAddedItem.Visible = true;
-                }
 
                 if (result.ItemIDExists)
                 {
@@ -96,6 +92,10 @@ namespace FitMe
 
                     Session[Constants.Session_CurrentUserRatedItem] = item;
                     Response.Redirect(Constants.Page_RateItem);
+                }
+                else
+                {
+                    lblTroubleAddingItem.Visible = true;
                 }
             }
         }

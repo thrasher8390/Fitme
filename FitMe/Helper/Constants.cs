@@ -7,7 +7,7 @@ namespace FitMe.Helper
 {
     public class Constants
     {
-        public const string SiteTitle = "FitMe";
+        public const string SiteTitle = "Fits2Me";
 
         #region session constants
         public const string Session_CurrentUser = "CurrentUser";
