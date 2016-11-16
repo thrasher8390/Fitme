@@ -245,15 +245,22 @@ namespace FitMe.Helper
         {
             Boolean columnUpdated = false;
 
-            string command = "UPDATE " + tableWithColumn + " SET " + columnToUpdate + "=\'" + newValue + "\' WHERE id=\'" + tableRowID + "\'";
-            using (MySqlCommand insert = GetMySqlCommand(command))
+            try
             {
-                Open();
-
-                if (insert.ExecuteNonQuery() > 0)
+                string command = "UPDATE " + tableWithColumn + " SET " + columnToUpdate + "=\'" + newValue + "\' WHERE id=\'" + tableRowID + "\'";
+                using (MySqlCommand insert = GetMySqlCommand(command))
                 {
-                    columnUpdated = true;
+                    Open();
+
+                    if (insert.ExecuteNonQuery() > 0)
+                    {
+                        columnUpdated = true;
+                    }
                 }
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine("0x0008,Unable to update Column," + ex.ToString());
             }
 
             return columnUpdated;

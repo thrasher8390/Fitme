@@ -15,7 +15,7 @@
                 <asp:TextBox runat="server" ID="tbLastName" CssClass="roundedcorner"></asp:TextBox>
             </p>
             <p>
-                Email Address / UserName: 
+                Email Address:
             <asp:TextBox runat="server" ID="tbEmailAddress" ReadOnly="true" CssClass="roundedcorner"></asp:TextBox>
             </p>
             <br />

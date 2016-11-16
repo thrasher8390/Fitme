@@ -13,27 +13,44 @@ namespace FitMe
     {
         private UserModel userModel = new UserModel();
         private User user;
-        private UserRatedClothes userRateditem;
+        public UserRatedClothes UserRateditem;
 
         protected void Page_Load(object sender, EventArgs e)
         {
             user = (User)Session[Constants.Session_CurrentUser];
-            userRateditem = (UserRatedClothes)Session[Constants.Session_CurrentUserRatedItem];
+            UserRateditem = (UserRatedClothes)Session[Constants.Session_CurrentUserRatedItem];
             if(!PagePermissions.IsAllowedOnPage(this, user))
             {
                 Response.Redirect(PagePermissions.TransferToPage(this, user));
             }
 
+            //Update item properties
             if (!IsPostBack)
             {
-                rItemRating.CurrentRating = userRateditem.Rating;
+                rItemRating.CurrentRating = UserRateditem.Rating;
+                tbPrice.Text = UserRateditem.Price.ToString();
+                tbStore.Text = UserRateditem.Store_or_Link;
+                tbComment.Text = UserRateditem.Comments;
             }
         }
 
         protected void btnRateItem_Click(Object sender, EventArgs e)
         {
             //update user rated item
-            userRateditem.Rating = rItemRating.CurrentRating;
+            UserRateditem.Rating = rItemRating.CurrentRating;
+
+            try
+            {
+                UserRateditem.Price = Convert.ToDouble(tbPrice.Text);
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine("0x0007,Could not convert price to a type Double," + ex.ToString());
+            }
+
+            UserRateditem.Store_or_Link = tbStore.Text;
+            UserRateditem.Comments = tbComment.Text;
+
             UserModel.UpdateUserProfile(user);
             Response.Redirect(Constants.Page_UserCloset);  
         }
