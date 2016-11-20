@@ -36,8 +36,9 @@
 
     .ratingStar {
         white-space: nowrap;
-        margin: 1em;
+        margin: 0 auto;
         height: 51px;
+        width: 275px;
     }
 
         .ratingStar .ratingItem {
@@ -46,7 +47,7 @@
             height: 50px;
             margin: 0px;
             padding: 0px;
-            display: block;
+            display:inline-block;
             background-repeat: no-repeat;
             cursor: pointer;
         }
@@ -61,6 +62,10 @@
 
         .ratingStar .waitingStar {
             background-image: url("Content/WaitingStar.jpg");
+        }
+
+        .paragraphFormat {
+           text-justify:auto;
         }
 </style>
 <body>
@@ -135,7 +140,7 @@
         </asp:ContentPlaceHolder>
     </div>
     <footer class="footer">
-        <div class="alignleft">
+        <div class="aligncenter">
             <script type="text/javascript">
                 amzn_assoc_ad_type = "banner";
                 amzn_assoc_marketplace = "amazon";

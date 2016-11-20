@@ -14,6 +14,7 @@ namespace FitMe.Models.UserModel.Controller
         public double Price = 0.00;
         public string Store_or_Link;
         public string Comments;
+        public string PhotoURL;
 
         public UserRatedClothes(Clothes.Type itemType, int itemID, int rating)
         {

@@ -58,6 +58,15 @@ namespace FitMe {
         protected global::System.Web.UI.WebControls.TextBox tbComment;
         
         /// <summary>
+        /// tbPhotoURL control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox tbPhotoURL;
+        
+        /// <summary>
         /// btnRateItem control.
         /// </summary>
         /// <remarks>
@@ -65,5 +74,14 @@ namespace FitMe {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button btnRateItem;
+        
+        /// <summary>
+        /// btnSkip control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnSkip;
     }
 }

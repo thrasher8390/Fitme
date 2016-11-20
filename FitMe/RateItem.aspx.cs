@@ -31,6 +31,7 @@ namespace FitMe
                 tbPrice.Text = UserRateditem.Price.ToString();
                 tbStore.Text = UserRateditem.Store_or_Link;
                 tbComment.Text = UserRateditem.Comments;
+                tbPhotoURL.Text = UserRateditem.PhotoURL;
             }
         }
 
@@ -53,6 +54,16 @@ namespace FitMe
 
             UserModel.UpdateUserProfile(user);
             Response.Redirect(Constants.Page_UserCloset);  
+        }
+
+        protected void btnSkip_Click(Object sender, EventArgs e)
+        {
+            Response.Redirect(Constants.Page_UserCloset);
+        }
+
+        protected void tbPhotoURL_TextChanged(object sender, EventArgs e)
+        {
+            UserRateditem.PhotoURL = tbPhotoURL.Text;
         }
     }
 }

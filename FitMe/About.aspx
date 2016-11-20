@@ -4,9 +4,11 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentSection" runat="server">
     <!-- Main component for a primary marketing message or call to action -->
     <div class="jumbotron">
-        <h1>About FitMe</h1>
-        <p>
-            FitMe was started in 2016.
+        <h1>About <%=FitMe.Helper.Constants.SiteTitle %></h1>
+        <p class="paragraphFormat>
+            <%=FitMe.Helper.Constants.SiteTitle %> was started in 2016.
+        </p>
+        <p class="paragraphFormat>
             Stick around for more info!
         </p>
     </div>
