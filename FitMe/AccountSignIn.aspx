@@ -7,7 +7,7 @@
         <div class="container-fluid">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <strong>Welcome back to <%=FitMe.Helper.Constants.SiteTitle %></strong>
+                    <strong><%=FitMe.Helper.Constants.SiteTitle %> is happy you are back!</strong>
                 </div>
                 <div class="panel-body">
                     <form role="form" action="#" method="POST" runat="server">
