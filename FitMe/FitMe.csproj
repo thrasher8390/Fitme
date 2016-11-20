@@ -207,6 +207,7 @@
     <Content Include="Main.Master" />
     <Content Include="Documentation\ExceptionList.md" />
     <Content Include="Documentation\DataBaseDesign.md" />
+    <Content Include="Documentation\PagePermissionsSpec.md" />
     <None Include="Properties\PublishProfiles\Google Cloud.pubxml" />
     <None Include="Properties\PublishProfiles\Thrasher Server.pubxml" />
     <None Include="Properties\Settings.settings">

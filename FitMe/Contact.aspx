@@ -8,8 +8,8 @@
         <p class="paragraphFormat">
             Stick around for more info!
         </p>
-        <p class="paragraphFormat>
-            Track Bugs and Features being worked on <a href="<%=FitMe.Helper.Constants.WebSite_TrelloFeedback %>" target="_blank">HERE</a> (You can even VOTE for the ones you like!)
+        <p class="paragraphFormat">
+            Track Bugs and Features being worked on <a href="<%=FitMe.Helper.Constants.WebSite_TrelloFeedback%>" target="_blank">HERE</a> (You can even VOTE for the ones you like!)
         </p>
     </div>
 </asp:Content>
