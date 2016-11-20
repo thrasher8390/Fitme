@@ -31,6 +31,42 @@ namespace FitMe {
         protected global::AjaxControlToolkit.Rating rItemRating;
         
         /// <summary>
+        /// tbPrice control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox tbPrice;
+        
+        /// <summary>
+        /// tbStore control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox tbStore;
+        
+        /// <summary>
+        /// tbComment control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox tbComment;
+        
+        /// <summary>
+        /// tbPhotoURL control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox tbPhotoURL;
+        
+        /// <summary>
         /// btnRateItem control.
         /// </summary>
         /// <remarks>
@@ -38,5 +74,14 @@ namespace FitMe {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button btnRateItem;
+        
+        /// <summary>
+        /// btnSkip control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnSkip;
     }
 }

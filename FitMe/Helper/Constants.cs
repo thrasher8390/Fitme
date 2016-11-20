@@ -7,7 +7,7 @@ namespace FitMe.Helper
 {
     public class Constants
     {
-        public const string SiteTitle = "FitMe";
+        public const string SiteTitle = "Fits2Me";
 
         #region session constants
         public const string Session_CurrentUser = "CurrentUser";
@@ -30,6 +30,8 @@ namespace FitMe.Helper
         public const string Page_UserProfile = "UserProfile.aspx";
         #endregion
 
-
+        #region websites
+        public const string WebSite_TrelloFeedback = "https://trello.com/b/4xTX2LuP";
+        #endregion
     }
 }

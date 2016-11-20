@@ -178,8 +178,9 @@
   <ItemGroup>
     <Content Include="AccountSignOut.aspx" />
     <Content Include="About.aspx" />
-    <Content Include="Content\EmptyStar.png" />
-    <Content Include="Content\FullStar.png" />
+    <Content Include="Content\EmptyStar.jpg" />
+    <Content Include="Content\FullStar.jpg" />
+    <Content Include="Content\WaitingStar.jpg" />
     <Content Include="UserCloset.aspx" />
     <Content Include="RateItem.aspx" />
     <Content Include="UserProfile.aspx" />
@@ -204,6 +205,7 @@
     <Content Include="Content\bootstrap-theme.min.css.map" />
     <Content Include="Content\bootstrap-theme.css.map" />
     <Content Include="Main.Master" />
+    <None Include="Properties\PublishProfiles\Google Cloud.pubxml" />
     <None Include="Properties\PublishProfiles\Thrasher Server.pubxml" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

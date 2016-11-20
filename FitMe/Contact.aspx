@@ -4,12 +4,12 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentSection" runat="server">
     <!-- Main component for a primary marketing message or call to action -->
     <div class="jumbotron">
-        <h1>Contact FitMe</h1>
-        <p>
+        <h1>Contact <%=FitMe.Helper.Constants.SiteTitle %></h1>
+        <p class="paragraphFormat">
             Stick around for more info!
         </p>
-        <p>
-            Track Bugs and Features being worked on <a href="https://trello.com/b/4xTX2LuP" target="_blank">HERE</a> (You can even VOTE for the ones you like!)
+        <p class="paragraphFormat>
+            Track Bugs and Features being worked on <a href="<%=FitMe.Helper.Constants.WebSite_TrelloFeedback %>" target="_blank">HERE</a> (You can even VOTE for the ones you like!)
         </p>
     </div>
 </asp:Content>

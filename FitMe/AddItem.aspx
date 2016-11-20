@@ -25,7 +25,7 @@
                 <asp:AutoCompleteExtender ServiceMethod="GetChestSize" TargetControlID="tbChestSize" ID="aceChestSize" runat="server" MinimumPrefixLength="1" CompletionInterval="100" EnableCaching="false" CompletionSetCount="10" FirstRowSelected="true"/>
                 <asp:Label ID="lblInvalidChestSize" runat="server" Visible="false" Text="invalid chest size" ForeColor="Red"></asp:Label>
                 <br />
-                <asp:Label ID="lblSuccessfullyAddedItem" runat="server" Visible="false" Text="YAY! You contributed to the database!" Font-Bold="True" ForeColor="#00CC00"></asp:Label>
+                <asp:Label ID="lblTroubleAddingItem" runat="server" Visible="false" Text="Trouble Adding Item. Please Try Again." Font-Bold="True" ForeColor="Red"></asp:Label>
             </div>
             <!-- ui-widget -->
             <div class ="button-group">
