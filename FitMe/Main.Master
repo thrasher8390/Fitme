@@ -141,7 +141,7 @@
         </asp:ContentPlaceHolder>
     </div>
     <footer class="footer">
-        <div class="aligncenter">
+        <div class="contatiner" style="text-align:center">
             <script type="text/javascript">
                 amzn_assoc_ad_type = "banner";
                 amzn_assoc_marketplace = "amazon";

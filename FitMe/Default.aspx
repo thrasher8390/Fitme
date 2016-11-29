@@ -16,7 +16,7 @@
             We are adding new features daily so you'll be able to watch the site grow. 
         </p>
         <p class="paragraphFormat">
-            See what users have requested and what is being worked on <a "<%=FitMe.Helper.Constants.WebSite_TrelloFeedback %>">HERE</a>
+            See what users have requested and what is being worked on <a href="<%=FitMe.Helper.Constants.WebSite_TrelloFeedback %>" target="_blank">HERE</a>
         </p>
     </div>
 </asp:Content>
