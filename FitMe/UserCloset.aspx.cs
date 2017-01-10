@@ -19,7 +19,7 @@ namespace FitMe
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            user = (User)Session["CurrentUser"];
+            user = (User)Session[Constants.Session_CurrentUser];
             if (!PagePermissions.IsAllowedOnPage(this, user))
             {
                 Server.Transfer(PagePermissions.TransferToPage(this, user), true);
@@ -42,7 +42,7 @@ namespace FitMe
             {
                 var row = dt.NewRow();
 
-                row["Item ID"] = item.ItemID;
+                row["Item ID"] = item.ID;
                 row["Item Type"] = item.ItemType;
                 row["Rating"] = Convert.ToString(item.Rating);
 
@@ -60,6 +60,12 @@ namespace FitMe
                 dtUserCloset.Rows.RemoveAt(e.RowIndex);
                 gvUserCloset.DataBind();
             }
+        }
+
+        protected void gvUserCloset_RowEditing(object sender, GridViewEditEventArgs e)
+        {
+            Session[Constants.Session_CurrentUserRatedItem] = user.Closet[e.NewEditIndex];
+            Response.Redirect(Constants.Page_RateItem);
         }
     }
 }

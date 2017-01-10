@@ -5,7 +5,7 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentSection" runat="server">
     <form runat="server">
         <div class="jumbotron" runat="server">
-            <h1>Welcome to your FitMe account!</h1>
+            <h1>Welcome to your <%=FitMe.Helper.Constants.SiteTitle %> account!</h1>
             <p>
                 First Name: 
                 <asp:TextBox runat="server" ID="tbFirstName" CssClass="roundedcorner"></asp:TextBox>
@@ -15,7 +15,7 @@
                 <asp:TextBox runat="server" ID="tbLastName" CssClass="roundedcorner"></asp:TextBox>
             </p>
             <p>
-                Email Address / UserName: 
+                Email Address:
             <asp:TextBox runat="server" ID="tbEmailAddress" ReadOnly="true" CssClass="roundedcorner"></asp:TextBox>
             </p>
             <br />

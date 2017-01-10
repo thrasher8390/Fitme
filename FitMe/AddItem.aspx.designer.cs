@@ -139,13 +139,13 @@ namespace FitMe {
         protected global::System.Web.UI.WebControls.Label lblInvalidChestSize;
         
         /// <summary>
-        /// lblSuccessfullyAddedItem control.
+        /// lblTroubleAddingItem control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblSuccessfullyAddedItem;
+        protected global::System.Web.UI.WebControls.Label lblTroubleAddingItem;
         
         /// <summary>
         /// btnAddItem control.

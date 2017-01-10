@@ -13,15 +13,17 @@ namespace FitMe
     public partial class AddItem : System.Web.UI.Page
     {
         private static TopModel Top;
-        private User CurrentUser;
+        private User user;
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            CurrentUser = (User)Session["CurrentUser"];
-            if (CurrentUser == null)
+            user = (User)Session[Constants.Session_CurrentUser];
+            if (!PagePermissions.IsAllowedOnPage(this, user))
             {
-                Server.Transfer("Default.aspx", true);
+                Response.Redirect(PagePermissions.TransferToPage(this, user), true);
             }
+
+            tbDesignerName.Focus();
             //TODO we need a better way of updating the local topmodel db
             Top = new TopModel();
             lblInvalidDesignerName.Visible = false;
@@ -29,7 +31,7 @@ namespace FitMe
             lblInvalidSleeveSize.Visible = false;
             lblInvalidChestSize.Visible = false;
 
-            lblSuccessfullyAddedItem.Visible = false;
+            lblTroubleAddingItem.Visible = false;
         }
 
         protected void btnAddItem_Click(object sender, EventArgs e)
@@ -69,18 +71,31 @@ namespace FitMe
             if(!illegalArgument)
             {
                 //Make sure the inputs are correct
-                DataBaseResults result = Top.Create(tbDesignerName.Text, tbNeckSize.Text, tbSleeveSize.Text, tbChestSize.Text, CurrentUser.ID);
-                if (result.NewItemAdded)
-                {
-                    lblSuccessfullyAddedItem.Visible = true;
-                }
+                DataBaseResults result = Top.Create(tbDesignerName.Text, tbNeckSize.Text, tbSleeveSize.Text, tbChestSize.Text, user.ID);
 
                 if (result.ItemIDExists)
                 {
                     //TODO the next to lines should be placed in stage 4 of clothes model rating
                     UserRatedClothes item = new UserRatedClothes(Clothes.Type.Top, result.ID, 0);
-                    CurrentUser.Closet.Add(item);
-                    UserModel.UpdateUserProfile(CurrentUser);
+
+                    //We have to add the item to the users closet to ensure that our Top DB and User validation stay in sync
+                    if(UserModel.TryAddingClosetItem(user, item))
+                    {
+                        //newly added
+                        Top.ValidatedClosetItem(item.ID);
+                    }
+                    else
+                    {
+                        //user already owns the item
+                        item = user.GetClosetItemById(item.ID);
+                    }
+
+                    Session[Constants.Session_CurrentUserRatedItem] = item;
+                    Response.Redirect(Constants.Page_RateItem);
+                }
+                else
+                {
+                    lblTroubleAddingItem.Visible = true;
                 }
             }
         }

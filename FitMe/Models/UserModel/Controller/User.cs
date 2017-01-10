@@ -43,5 +43,15 @@ namespace FitMe.Models.UserModel.Controller
             EmailAddress = email;
             Password = p;
         }
+
+        /// <summary>
+        /// passes back the reference to the item as it exists in the users closet
+        /// </summary>
+        /// <param name="itemID"></param>
+        /// <returns></returns>
+        internal UserRatedClothes GetClosetItemById(int itemID)
+        {
+            return Closet.Find(closetItem => closetItem.ID == itemID);
+        }
     }
 }

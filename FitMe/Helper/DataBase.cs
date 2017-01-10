@@ -23,17 +23,16 @@ namespace FitMe.Helper
         {
             lock (lockIsOpen)
             {
-                if (!isOpen)
+                try
                 {
-                    isOpen = true;
-                    try
+                    if (FitMeDataBaseConnection.State == System.Data.ConnectionState.Closed)
                     {
                         FitMeDataBaseConnection.Open();
                     }
-                    catch(Exception ex)
-                    {
-                        Console.WriteLine("0x0003,Database is not responding");
-                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("0x0003,Database is not responding" + ex.ToString());
                 }
             }
         }
@@ -45,10 +44,16 @@ namespace FitMe.Helper
         {
             lock (lockIsOpen)
             {
-                if (isOpen)
+                try
                 {
-                    isOpen = false;
-                    FitMeDataBaseConnection.Close();
+                    if (FitMeDataBaseConnection.State == System.Data.ConnectionState.Open)
+                    {
+                        FitMeDataBaseConnection.Close();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("0x0006,Unable to close the DB connection," + ex.ToString());
                 }
             }
         }
@@ -99,7 +104,7 @@ namespace FitMe.Helper
                     }
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Console.WriteLine("0x0004, Failed to ReadFromTable," + ex.ToString());
             }
@@ -190,7 +195,7 @@ namespace FitMe.Helper
                         }
 
                         int id = dict.Keys.First();
-                        if ( id > 0)
+                        if (id > 0)
                         {
                             returnValue.NewItemAdded = true;
                             returnValue.ID = id;
@@ -240,15 +245,22 @@ namespace FitMe.Helper
         {
             Boolean columnUpdated = false;
 
-            string command = "UPDATE " + tableWithColumn + " SET " + columnToUpdate + "=\'" + newValue + "\' WHERE id=\'" + tableRowID + "\'";
-            using (MySqlCommand insert = GetMySqlCommand(command))
+            try
             {
-                Open();
-
-                if (insert.ExecuteNonQuery() > 0)
+                string command = "UPDATE " + tableWithColumn + " SET " + columnToUpdate + "=\'" + newValue + "\' WHERE id=\'" + tableRowID + "\'";
+                using (MySqlCommand insert = GetMySqlCommand(command))
                 {
-                    columnUpdated = true;
+                    Open();
+
+                    if (insert.ExecuteNonQuery() > 0)
+                    {
+                        columnUpdated = true;
+                    }
                 }
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine("0x0008,Unable to update Column," + ex.ToString());
             }
 
             return columnUpdated;

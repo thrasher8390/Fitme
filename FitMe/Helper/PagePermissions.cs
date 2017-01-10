@@ -22,7 +22,7 @@ namespace FitMe.Helper
 
         internal static string TransferToPage(System.Web.UI.Page page, User user)
         {
-            string transferToPage = "Default.aspx";
+            string transferToPage = Constants.Page_AccountSignIn;
 
             return transferToPage;
         }

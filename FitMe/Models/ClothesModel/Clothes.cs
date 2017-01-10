@@ -25,7 +25,7 @@ namespace FitMe.Models.ClothesModel
                 case Type.Top:
                     {
                         TopModel topModel = new TopModel();
-                        topModel.TryRemovingTop(item.ItemID);
+                        topModel.TryRemovingTop(item.ID);
                         break;
                     }
                 case Type.Bottom:

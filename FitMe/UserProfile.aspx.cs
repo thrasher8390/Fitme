@@ -19,7 +19,7 @@ namespace FitMe
             user = (User)Session["CurrentUser"];
             if(!PagePermissions.IsAllowedOnPage(this, user))
             {
-                Server.Transfer(PagePermissions.TransferToPage(this, user), true);
+                Response.Redirect(PagePermissions.TransferToPage(this, user), true);
             }
 
             if (!IsPostBack)

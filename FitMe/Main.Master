@@ -4,11 +4,11 @@
 <!DOCTYPE html>
 <html lang="en">
 <head id="Head1" runat="server">
-    <title>FitMe</title>
+    <title><%=FitMe.Helper.Constants.SiteTitle %></title>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="FitMe Web app for finding clothes that fit just right">
+    <meta name="description" content="<%=FitMe.Helper.Constants.SiteTitle %> Web app for finding clothes that fit just right">
     <meta name="Derek Thrasher" content="Sree">
     <asp:PlaceHolder runat="server">
         <%-- Style Section --%>
@@ -33,6 +33,40 @@
         -moz-border-radius: 8px;
         -webkit-border-radius: 8px;
     }
+
+    .ratingStar {
+        white-space: nowrap;
+        margin: 0 auto;
+        height: 51px;
+        width: 275px;
+    }
+
+        .ratingStar .ratingItem {
+            font-size: 0pt;
+            width: 50px;
+            height: 50px;
+            margin: 0px;
+            padding: 0px;
+            display:inline-block;
+            background-repeat: no-repeat;
+            cursor: pointer;
+        }
+
+        .ratingStar .emptyStar {
+            background-image: url("Content/EmptyStar.jpg");
+        }
+
+        .ratingStar .filledStar {
+            background-image: url("Content/FullStar.jpg");
+        }
+
+        .ratingStar .waitingStar {
+            background-image: url("Content/WaitingStar.jpg");
+        }
+
+        .paragraphFormat {
+           text-justify:auto;
+        }
 </style>
 <body>
     <div class="container">
@@ -47,17 +81,17 @@
                             <span class="icon-bar"></span>
                             <span class="icon-bar"></span>
                         </button>
-                        <a class="navbar-brand" href="Default.aspx">FitMe</a>
+                        <a class="navbar-brand" href="<%=FitMe.Helper.Constants.Page_HomePage %>"><%=FitMe.Helper.Constants.SiteTitle %></a>
                     </div>
                     <div class="navbar-collapse collapse">
                         <ul class="nav navbar-nav">
-                            <li><a href="About.aspx">About</a></li>
-                            <li><a href="Contact.aspx">Contact Us</a></li>
+                            <li><a href="<%=FitMe.Helper.Constants.Page_About %>">About</a></li>
+                            <li><a href="<%=FitMe.Helper.Constants.Page_ContactUs %>">Contact Us</a></li>
                             <ul class="dropdown-menu" role="menu">
                             </ul>
                         </ul>
                         <ul class="nav navbar-nav navbar-right">
-                            <li><a href="AccountSignIn.aspx">Sign In</a></li>
+                            <li><a href="<%=FitMe.Helper.Constants.Page_AccountSignIn %>">Sign In</a></li>
                         </ul>
                     </div>
                     <!--/.nav-collapse -->
@@ -73,13 +107,13 @@
                             <span class="icon-bar"></span>
                             <span class="icon-bar"></span>
                         </button>
-                        <a class="navbar-brand" href="Default.aspx">FitMe</a>
+                        <a class="navbar-brand" href="<%=FitMe.Helper.Constants.Page_HomePage %>"><%=FitMe.Helper.Constants.SiteTitle %></a>
                     </div>
                     <div class="navbar-collapse collapse">
                         <ul class="nav navbar-nav">
-                            <li><a href="About.aspx">About</a></li>
-                            <li><a href="Contact.aspx">Contact Us</a></li>
-                             <li><a href="AddItem.aspx">Rate Item</a></li>
+                            <li><a href="<%=FitMe.Helper.Constants.Page_About %>">About</a></li>
+                            <li><a href="<%=FitMe.Helper.Constants.Page_ContactUs %>">Contact Us</a></li>
+                            <li><a href="<%=FitMe.Helper.Constants.Page_AddItem %>">Rate Item</a></li>
                         </ul>
                         <ul class="nav navbar-nav navbar-right">
                             <ul class="dropdown-menu" role="menu">
@@ -87,9 +121,9 @@
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">My Account <span class="caret"></span></a>
                                 <ul class="dropdown-menu" role="menu">
-                                    <li><a href="UserCloset.aspx">My Closet</a></li>
-                                    <li><a href="UserProfile.aspx">My Profile</a></li>
-                                    <li><a href="AccountLogout.aspx">Sign Out</a></li>
+                                    <li><a href="<%=FitMe.Helper.Constants.Page_UserCloset %>">My Closet</a></li>
+                                    <li><a href="<%=FitMe.Helper.Constants.Page_UserProfile %>">My Profile</a></li>
+                                    <li><a href="<%=FitMe.Helper.Constants.Page_AccountSignOut %>">Sign Out</a></li>
                                 </ul>
                             </li>
                         </ul>
@@ -106,10 +140,25 @@
         </asp:ContentPlaceHolder>
     </div>
     <footer class="footer">
+        <div class="aligncenter">
+            <script type="text/javascript">
+                amzn_assoc_ad_type = "banner";
+                amzn_assoc_marketplace = "amazon";
+                amzn_assoc_region = "US";
+                amzn_assoc_placement = "assoc_banner_placement_default";
+                amzn_assoc_campaigns = "styl_cd_live";
+                amzn_assoc_banner_type = "category";
+                amzn_assoc_isresponsive = "true";
+                amzn_assoc_banner_id = "0ASG388GN259N81FC902";
+                amzn_assoc_tracking_id = "fits2me-20";
+                amzn_assoc_linkid = "24910b69da06fbd3ef4ae27e92bf7394";
+            </script>
+            <script src="//z-na.amazon-adsystem.com/widgets/q?ServiceVersion=20070822&Operation=GetScript&ID=OneJS&WS=1"></script>
+        </div>
         <div class="container" style="text-align: center">
             <!-- hitwebcounter Code START -->
             <a style="align-content: center; align-items: center; text-align: center;">
-                <img src="http://hitwebcounter.com/counter/counter.php?page=6528131&style=0003&nbdigits=5&type=ip&initCount=0" title="Site Visitors" alt="Thanks for using FitMe!" border="0" style="align-self: center">
+                <img src="http://hitwebcounter.com/counter/counter.php?page=6528131&style=0003&nbdigits=5&type=ip&initCount=0" title="Site Visitors" alt="Thanks for using <%=FitMe.Helper.Constants.SiteTitle %>!" border="0" style="align-self: center">
             </a>
         </div>
     </footer>

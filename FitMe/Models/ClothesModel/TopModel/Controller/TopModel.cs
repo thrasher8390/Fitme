@@ -6,6 +6,7 @@ using System.Net;
 using System.Net.Http;
 using MySql.Data.MySqlClient;
 using FitMe.Helper;
+using FitMe.Models.UserModel.Controller;
 
 namespace FitMe.Models.ClothesModel
 {
@@ -78,13 +79,23 @@ namespace FitMe.Models.ClothesModel
         }
 
         /// <summary>
+        /// Increment the validation count for the user
+        /// </summary>
+        /// <param name="itemID"></param>
+        internal void ValidatedClosetItem(int itemID)
+        {
+            int newValidationCount = GetTopByID(itemID).ValidatedCount++;
+            DataBase.UpdateColumn(TABLE_TOP, itemID, TABLE_TOP_COLUMN_VALIDATED, newValidationCount.ToString()); 
+        }
+
+        /// <summary>
         /// We'll try updating the DB and also try creating a new Top item
         /// </summary>
         /// <param name="designer"></param>
         /// <param name="neck"></param>
         /// <param name="sleeve"></param>
         /// <param name="chest"></param>
-        internal DataBaseResults Create(string designer, string neck, string sleeve, string chest, int UserID)
+        internal DataBaseResults Create  (string designer, string neck, string sleeve, string chest, int UserID)
         {
             DataBaseResults userContributedToDataBase = new DataBaseResults();
 
@@ -101,27 +112,25 @@ namespace FitMe.Models.ClothesModel
             {
                 userContributedToDataBase.NewItemAdded = true;
             }
-
-            userContributedToDataBase = DoesTopExistInDB(designerID.ID, neckID.ID, sleeveID.ID, chestID.ID);
+            Top top = new Top(0,designerID.ID, neckID.ID, chestID.ID, sleeveID.ID, 0);
+            userContributedToDataBase = DoesTopExistInDB(top);
 
             //If item doesn't exist lets try to add it
             if (!userContributedToDataBase.ItemIDExists)
             {
                 string[] columns = { TABLE_TOP_COLUMN_DESIGNER, TABLE_TOP_COLUMN_NECK, TABLE_TOP_COLUMN_SLEEVE, TABLE_TOP_COLUMN_CHEST, TABLE_TOP_COLUMN_CREATEDBYUSER, TABLE_TOP_COLUMN_VALIDATED };
-                string[] values = { designerID.ID.ToString(), neckID.ID.ToString(), sleeveID.ID.ToString(), chestID.ID.ToString(), UserID.ToString(), "1" };
+                string[] values = { designerID.ID.ToString(), neckID.ID.ToString(), sleeveID.ID.ToString(), chestID.ID.ToString(), UserID.ToString(), "0" };
+
                 try
                 {
                     userContributedToDataBase = DataBase.CreateNewRow(TABLE_TOP, columns, values);
+                    top.ID = userContributedToDataBase.ID;
+                    Tops.Add(top);
                 }
                 catch
                 {
                     //If create New Row throws its exception it means that this are now more than 1 tops by this designer
                 }
-            }
-            else
-            {
-                //update Validation
-                DataBase.UpdateColumn(TABLE_TOP, userContributedToDataBase.ID, TABLE_TOP_COLUMN_VALIDATED, (GetTopWithID(userContributedToDataBase.ID).ValidatedCount + 1).ToString()); 
             }
 
             return userContributedToDataBase;
@@ -136,19 +145,26 @@ namespace FitMe.Models.ClothesModel
             try
             {
                 //Either update validated count or remove the row completely
-                if (GetTopWithID(itemID).ValidatedCount < 2)
+                if (GetTopByID(itemID).ValidatedCount < 2)
                 {
                     DataBase.RemoveRow(TABLE_TOP, itemID.ToString());
                 }
                 else
                 {
-                    DataBase.UpdateColumn(TABLE_TOP, itemID, TABLE_TOP_COLUMN_VALIDATED, (GetTopWithID(itemID).ValidatedCount - 1).ToString());
+                    DataBase.UpdateColumn(TABLE_TOP, itemID, TABLE_TOP_COLUMN_VALIDATED, (GetTopByID(itemID).ValidatedCount - 1).ToString());
                 }
             }
             catch(Exception ex)
             {
                 Console.WriteLine("0x0005,Try Removing Top Failed," + ex.ToString());
             }
+        }
+
+
+
+        private DataBaseResults DoesTopExistInDB(Top top)
+        {
+            return DoesTopExistInDB(top.DesignerName, top.NeckSize, top.SleeveSize, top.ChestSize);
         }
 
         /// <summary>
@@ -180,7 +196,7 @@ namespace FitMe.Models.ClothesModel
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        private Top GetTopWithID(int id)
+        private Top GetTopByID(int id)
         {
             Top retrunTop = null;
             foreach (Top top in Tops)
