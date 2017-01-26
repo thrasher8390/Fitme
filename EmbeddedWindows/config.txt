@@ -4,4 +4,4 @@ framebuffer_swap=1          # Set the frame buffer to be Windows BGR compatible.
 disable_overscan=1          # Disable overscan
 init_uart_clock=16000000    # Set UART clock to 16Mhz
 hdmi_group=2                # Computer Monitor
-hdmi_mode=53                #Computer Monitor 1600x900
+hdmi_mode=83                #0x53 = 83(dec) Computer Monitor 1600x900
