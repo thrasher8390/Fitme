@@ -310,7 +310,7 @@ namespace PhotoBooth
                 recordVideo.IsEnabled = false;
                 captureImage.Source = null;
 
-                photoFile = await Windows.Storage.KnownFolders.PicturesLibrary.CreateFileAsync(
+                photoFile = await Windows.Storage.KnownFolders.VideosLibrary.CreateFileAsync(
                     PHOTO_FILE_NAME, CreationCollisionOption.GenerateUniqueName);
                 ImageEncodingProperties imageProperties = ImageEncodingProperties.CreateJpeg();
                 await mediaCapture.CapturePhotoToStorageFileAsync(imageProperties, photoFile);

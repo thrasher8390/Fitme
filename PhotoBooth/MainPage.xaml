@@ -59,7 +59,7 @@
             <StackPanel>
                 <TextBlock Name="PreviewTitle" Grid.Row="0" Grid.Column="0" Text="Preview"  Height="30" HorizontalAlignment="Center" Margin="0,20,0,0" Visibility="Visible"/>
                 <Canvas Name="PreviewCanvas" Grid.Row="1" Grid.Column="0" Width="400" Height="400" Background="Gray"  Margin="0,0,0,0" Visibility="Visible">
-                    <CaptureElement x:Name="previewElement" Width="400" Height="400" HorizontalAlignment="Left" Visibility="Visible" Canvas.Left="-10"/>
+                    <CaptureElement x:Name="previewElement" Width="400" Height="400" HorizontalAlignment="Left" Visibility="Visible" />
                 </Canvas>
             </StackPanel>
             <StackPanel>
