@@ -29,14 +29,15 @@ namespace FitMe
             user = new UserModel();
             if(user.CreateAccount(firstName, lastName, email, password, passwordVerify))
             {
+                //Successfully created an account
                 Session[Constants.Session_CurrentUser] = user.CurrentUser;
-                Server.Transfer("UserProfile.aspx", true);
+                Server.Transfer(Constants.Page_UserCloset, true);
+                //TODO: set a value so that the user is welcomed on their first signin!
             }
             else
             {
-                //switch case for handling Create Account
-                //Account exists: If the account exists we should flip to the signin screen
-                //Successful Signin: Go to User Profile!
+                //Account already exists so lets transfer to the signin screen
+                Server.Transfer(Constants.Page_AccountSignIn, true);
             }
         }
     }

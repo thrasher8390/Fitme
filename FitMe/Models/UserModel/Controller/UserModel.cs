@@ -102,7 +102,7 @@ namespace FitMe.Models.UserModel.Controller
         public Boolean SignInToAccount(string email, string password)
         {
             Boolean returnValue = false;
-            //We should only be signing in if there is already and email address
+            //We should only be signing in if there is already an email address
             if(!IsEmailAvailable(email))
             {
                 //Find User
